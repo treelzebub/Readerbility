@@ -13,8 +13,7 @@ public class ReadabilityConstants {
 
     protected static final String requestTokenUrl = urlBase + "/oauth/request_token/";
     protected static final String accessTokenUrl = urlBase + "/oauth/access_token/";
-    protected static final String authorizationUrlBase = urlBase
-            + "/oauth/authorize/";
+    protected static final String authorizationUrlBase = urlBase + "/oauth/authorize/";
 
     protected static final String callbackUrl = "readability?action=return";
 }

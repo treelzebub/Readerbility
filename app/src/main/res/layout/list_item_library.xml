@@ -4,13 +4,22 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
+    <CheckBox
+        android:id="@+id/library_chkbx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/abc_dropdownitem_text_padding_left"/>
+
     <TextView
         android:id="@+id/library_item_title"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:padding="@dimen/abc_dropdownitem_text_padding_left"/>
+
     <TextView
         android:id="@+id/library_item_date"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:padding="@dimen/abc_dropdownitem_text_padding_left"/>
 
 </LinearLayout>
