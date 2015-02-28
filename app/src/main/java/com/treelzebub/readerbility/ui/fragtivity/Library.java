@@ -1,6 +1,5 @@
 package com.treelzebub.readerbility.ui.fragtivity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -25,7 +24,7 @@ import java.util.List;
  * Created by Tre Murillo on 2/27/15.
  */
 public class Library {
-    
+
     public class LibraryActivity extends FragmentActivity {
 
         @Override
@@ -38,21 +37,6 @@ public class Library {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
-        }
-
-
-        @Override
-        protected void onPause() {
-            super.onPause();
-        }
-
-        @Override
-        protected void onResume() {
-            super.onResume();
-        }
-        @Override
-        protected void onStop() {
-            super.onStop();
         }
 
     }
@@ -75,12 +59,6 @@ public class Library {
         }
 
         @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-
-        }
-
-        @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                                  @Nullable Bundle savedInstanceState) {
             super.onCreateView(inflater, container, savedInstanceState);
@@ -88,46 +66,12 @@ public class Library {
 
             View v = inflater.inflate(R.layout.fragment_library, container, false);
             ListView listView = (ListView) v.findViewById(android.R.id.list);
-            
+
             setListAdapter(LibraryAdapter.getInstance(getActivity()));
 
             return v;
         }
 
-        @Override
-        public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-            super.onActivityCreated(savedInstanceState);
-        }
-
-        @Override
-        public void onStart() {
-            super.onStart();
-        }
-
-        @Override
-        public void onResume() {
-            super.onResume();
-        }
-
-        @Override
-        public void onPause() {
-            super.onPause();
-        }
-
-        @Override
-        public void onStop() {
-            super.onStop();
-        }
-
-        @Override
-        public void onDetach() {
-            super.onDetach();
-        }
-
-        @Override
-        public void onDestroyView() {
-            super.onDestroyView();
-        }
     }
 
     private static class LibraryAdapter extends BaseAdapter {

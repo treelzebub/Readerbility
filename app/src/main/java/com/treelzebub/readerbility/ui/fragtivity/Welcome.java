@@ -40,6 +40,7 @@ public class Welcome {
         protected void onResume() {
             super.onResume();
         }
+
         @Override
         protected void onStop() {
             super.onStop();
@@ -78,10 +79,10 @@ public class Welcome {
             browseButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                   getFragmentManager()
-                           .beginTransaction()
-                           .replace(R.id.container, Library.LibraryFragment.getInstance())
-                           .commit();
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.container, Library.LibraryFragment.getInstance())
+                            .commit();
                 }
             });
 
@@ -98,36 +99,6 @@ public class Welcome {
         @Override
         public void onActivityCreated(@Nullable Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
-        }
-
-        @Override
-        public void onStart() {
-            super.onStart();
-        }
-
-        @Override
-        public void onResume() {
-            super.onResume();
-        }
-
-        @Override
-        public void onPause() {
-            super.onPause();
-        }
-
-        @Override
-        public void onStop() {
-            super.onStop();
-        }
-
-        @Override
-        public void onDetach() {
-            super.onDetach();
-        }
-
-        @Override
-        public void onDestroyView() {
-            super.onDestroyView();
         }
     }
 }
