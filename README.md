@@ -1,5 +1,5 @@
 # Readerbility
-
+<pre>
 Aggregator:
 1) Login to Readability
   a) directly
@@ -14,3 +14,4 @@ Aggregator:
 
 Library:
 1) Display each Magazine in a super-sexy-ultra-maxi User Experience that just might save your family's life.
+</pre>
