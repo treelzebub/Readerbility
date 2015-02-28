@@ -16,7 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.treelzebub.readerbility.R;
-import com.treelzebub.readerbility.thing.Bookmark;
+import com.treelzebub.readerbility.thing.Article;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +84,7 @@ public class Library {
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                                  @Nullable Bundle savedInstanceState) {
             super.onCreateView(inflater, container, savedInstanceState);
-            List libraryList = new ArrayList<Bookmark>();
+            List libraryList = new ArrayList<Article>();
 
             View v = inflater.inflate(R.layout.fragment_library, container, false);
             ListView listView = (ListView) v.findViewById(android.R.id.list);
@@ -132,25 +132,25 @@ public class Library {
 
     private static class LibraryAdapter extends BaseAdapter {
         static LibraryAdapter mAdapter;
-        static List<Bookmark> mLibrary;
+        static List<Article> mLibrary;
         static LayoutInflater mInflater;
 
         static LibraryAdapter getInstance(Context c) {
             if (mAdapter == null) {
                 mAdapter = new LibraryAdapter();
-                mLibrary = new ArrayList<Bookmark>();
+                mLibrary = new ArrayList<Article>();
                 mInflater = LayoutInflater.from(c);
 
                 //TODO temp
-                mLibrary.add(new Bookmark("Jazz","1/4/2014"));
-                mLibrary.add(new Bookmark("Programming","3/5/2015"));
-                mLibrary.add(new Bookmark("Film","4/6/2056"));
-                mLibrary.add(new Bookmark("Laptop Lapburn","2/26/2015"));
-                mLibrary.add(new Bookmark("Probable Testicularly Cancerous Future","+"));
-                mLibrary.add(new Bookmark("Payments","2/44/5123"));
-                mLibrary.add(new Bookmark("RIP Leonard Nemoy","2/27/2015"));
-                mLibrary.add(new Bookmark("Article","1/1/1900"));
-                mLibrary.add(new Bookmark("Another Article","0/0/000"));
+                mLibrary.add(new Article("Jazz", "http://www.asdf.com"));
+                mLibrary.add(new Article("Programming", "http://www.asdf.com"));
+                mLibrary.add(new Article("Film", "http://www.asdf.com"));
+                mLibrary.add(new Article("Laptop Lapburn", "http://www.asdf.com"));
+                mLibrary.add(new Article("Probable Testicularly Cancerous Future", "http://www.asdf.com"));
+                mLibrary.add(new Article("Payments", "http://www.asdf.com"));
+                mLibrary.add(new Article("RIP Leonard Nemoy", "http://www.asdf.com"));
+                mLibrary.add(new Article("Article", "http://www.asdf.com"));
+                mLibrary.add(new Article("Another Article", "http://www.asdf.com"));
                 ////
             }
             return mAdapter;
@@ -162,7 +162,7 @@ public class Library {
         }
 
         @Override
-        public Bookmark getItem(int i) {
+        public Article getItem(int i) {
             return mLibrary.get(i);
         }
 
@@ -189,10 +189,10 @@ public class Library {
                 holder = (ViewHolder) view.getTag();
             }
 
-            Bookmark bookmark = mLibrary.get(i);
+            Article bookmark = mLibrary.get(i);
 
-            holder.dateTV.setText(bookmark.getDate());
-            holder.titleTV.setText(bookmark.getTitle());
+            holder.dateTV.setText(bookmark.url);
+            holder.titleTV.setText(bookmark.title);
 
             return view;
         }
