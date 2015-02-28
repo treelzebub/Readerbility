@@ -12,7 +12,6 @@ import com.treelzebub.readerbility.R;
 
 /**
  * Created by Tre Murillo on 2/27/15.
- * Copyright(c) 2014 Level, Inc.
  */
 public class Login {
 
