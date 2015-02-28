@@ -17,6 +17,7 @@ import com.treelzebub.readerbility.R;
  * Created by Tre Murillo on 2/27/15.
  */
 public class Welcome {
+
     public class WelcomeActivity extends FragmentActivity {
 
         @Override
@@ -28,12 +29,10 @@ public class Welcome {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
-
         }
 
-
         @Override
-                 protected void onPause() {
+        protected void onPause() {
             super.onPause();
         }
 
@@ -73,7 +72,6 @@ public class Welcome {
             super.onCreateView(inflater, container, savedInstanceState);
 
             View v = inflater.inflate(R.layout.fragment_welcome, container, false);
-
             Button browseButton = (Button) v.findViewById(R.id.browse_button);
             Button createNewButton = (Button) v.findViewById(R.id.create_new_button);
 

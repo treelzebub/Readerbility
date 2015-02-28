@@ -3,6 +3,7 @@ package com.treelzebub.readerbility.ui.fragtivity;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -130,14 +131,15 @@ public class Library {
     }
 
     private static class LibraryAdapter extends BaseAdapter {
-        static LibraryAdapter mAdapter = null;
+        static LibraryAdapter mAdapter;
         static List<Bookmark> mLibrary;
-        LayoutInflater mInflater;
+        static LayoutInflater mInflater;
 
         static LibraryAdapter getInstance(Context c) {
             if (mAdapter == null) {
                 mAdapter = new LibraryAdapter();
                 mLibrary = new ArrayList<Bookmark>();
+                mInflater = LayoutInflater.from(c);
 
                 //TODO temp
                 mLibrary.add(new Bookmark("Jazz","1/4/2014"));
@@ -156,7 +158,7 @@ public class Library {
 
         @Override
         public int getCount() {
-            return 0;
+            return mLibrary.size();
         }
 
         @Override
@@ -170,19 +172,21 @@ public class Library {
         }
 
         @Override
-        public View getView(int i, View convertView, ViewGroup parent) {
-            ViewHolder holder = null;
+        public View getView(int i, View convertView, @NonNull ViewGroup parent) {
+            View view;
+            ViewHolder holder;
 
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.list_item_library, parent, false);
+                view = mInflater.inflate(R.layout.list_item_library, parent, false);
                 holder = new ViewHolder();
 
-                holder.titleTV = (TextView) convertView.findViewById(R.id.library_item_title);
-                holder.dateTV = (TextView) convertView.findViewById(R.id.library_item_date);
+                holder.titleTV = (TextView) view.findViewById(R.id.library_item_title);
+                holder.dateTV = (TextView) view.findViewById(R.id.library_item_date);
 
-                convertView.setTag(holder);
+                view.setTag(holder);
             } else {
-                holder = (ViewHolder) convertView.getTag();
+                view = convertView;
+                holder = (ViewHolder) view.getTag();
             }
 
             Bookmark bookmark = mLibrary.get(i);
@@ -190,11 +194,11 @@ public class Library {
             holder.dateTV.setText(bookmark.getDate());
             holder.titleTV.setText(bookmark.getTitle());
 
-            return convertView;
+            return view;
         }
 
         private class ViewHolder {
-            TextView titleTV, dateTV;
+            public TextView titleTV, dateTV;
         }
     }
 
