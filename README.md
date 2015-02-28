@@ -1,18 +1,18 @@
 # Readerbility
+
 <pre>
 Aggregator:
-1) Login to Readability
-  a) directly
-  b) social login
+1) login to Readability
+  a) directly [email + pwd]
+  b) social login [facebook, twitter, google+]
 2) pull bookmarked Articles
   a) search
   b) browse tags
-  c) sort by *
-3) select any number of Articles and collect each as an HTML file within an epub file.ᵜ
-4) save to cloud
-5) open in your favorite e-reader.
-
-ᵜ .epub = zip of .html files with static names. eg. INDEX_00.html refers to the table of contents.
+  c) view all | sort by *
+3) select any number of Articles and collect each in a Magazine in epub/mobi format.
+4) keep your Magazines in a handy-dandy Library
+5) sync with Dropbox, Drive, etc.
+6) open in your favorite e-reader on demand.
 
 Library:
 1) Display each Magazine in a super-sexy-ultra-maxi User Experience that just might save your family's life.
