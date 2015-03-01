@@ -1,5 +1,6 @@
 package com.treelzebub.readerbility.ui.fragtivity;
 
+import android.accounts.AccountAuthenticatorActivity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -47,4 +48,7 @@ public class Login {
         }
     }
 
+    public class LoginActivity extends AccountAuthenticatorActivity {
+
+    }
 }

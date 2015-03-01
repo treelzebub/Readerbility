@@ -13,7 +13,7 @@ import retrofit.http.Path;
 /**
  * Created by Tre Murillo on 2/27/15.
  */
-public interface ReadabilityService {
+public interface ParserService {
 
     @POST("POST /api/rest/v1/bookmarks")
     void addBookmark(@Body Bookmark bookmark, Callback<Bookmark> cb);
