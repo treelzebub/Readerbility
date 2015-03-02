@@ -2,7 +2,6 @@ package com.treelzebub.readerbility.thing;
 
 /**
  * Created by Tre Murillo on 2/28/15.
- * Copyright(c) 2014 Level, Inc.
  */
 public class Article {
     public String
