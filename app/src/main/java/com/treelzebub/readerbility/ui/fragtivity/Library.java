@@ -28,17 +28,11 @@ public class Library {
     public class LibraryActivity extends FragmentActivity {
 
         @Override
-        protected void onStart() {
-            super.onStart();
-        }
-
-        @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
         }
-
     }
 
     public static class LibraryFragment extends ListFragment {
@@ -95,7 +89,7 @@ public class Library {
                 mLibrary.add(new Article("RIP Leonard Nemoy", "http://www.asdf.com"));
                 mLibrary.add(new Article("Article", "http://www.asdf.com"));
                 mLibrary.add(new Article("Another Article", "http://www.asdf.com"));
-                ////
+                ////            }
             }
             return mAdapter;
         }
@@ -145,5 +139,4 @@ public class Library {
             public TextView titleTV, dateTV;
         }
     }
-
 }
