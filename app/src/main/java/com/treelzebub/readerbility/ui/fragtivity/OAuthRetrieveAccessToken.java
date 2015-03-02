@@ -8,7 +8,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.treelzebub.readerbility.util.ReadabilityAuthActivity;
+import com.treelzebub.readerbility.util.AccountAuthActivity;
 
 import oauth.signpost.OAuth;
 
@@ -17,9 +17,9 @@ import oauth.signpost.OAuth;
  */
 public class OAuthRetrieveAccessToken extends AsyncTask<Uri, Void, Void> {
     public static final String TAG = "Readability";
-    protected ReadabilityAuthActivity context;
+    protected AccountAuthActivity context;
 
-    public OAuthRetrieveAccessToken(ReadabilityAuthActivity context) {
+    public OAuthRetrieveAccessToken(AccountAuthActivity context) {
         this.context = context;
     }
 
@@ -29,23 +29,23 @@ public class OAuthRetrieveAccessToken extends AsyncTask<Uri, Void, Void> {
         String oauth_verifier = uri.getQueryParameter(OAuth.OAUTH_VERIFIER);
 
         try {
-            ReadabilityAuthActivity.getProvider().retrieveAccessToken(ReadabilityAuthActivity.getConsumer, oauth_verifier);
+            AccountAuthActivity.getProvider().retrieveAccessToken(AccountAuthActivity.getConsumer, oauth_verifier);
 
-            Log.i("access_token", ReadabilityAuthActivity.getConsumer().getToken());
-            Log.i("access_token_secret", ReadabilityAuthActivity.getConsumer().getTokenSecret());
+            Log.i("access_token", AccountAuthActivity.getConsumer().getToken());
+            Log.i("access_token_secret", AccountAuthActivity.getConsumer().getTokenSecret());
 
             AccountManager acctMan = AccountManager.get(this.context);
-            final Account account = new Account(username, ReadabilityAuthActivity.ACCOUNT_TYPE);
+            final Account account = new Account(username, AccountAuthActivity.ACCOUNT_TYPE);
 
             acctMan.addAccountExplicitly(account, null, null);
-            acctMan.setUserData(account, "token", ReadabilityAuthActivity.getConsumer().getToken());
-            acctMan.setUserData(account, "tokenSecret", ReadabilityAuthActivity.getConsumer().getTokenSecret());
+            acctMan.setUserData(account, "token", AccountAuthActivity.getConsumer().getToken());
+            acctMan.setUserData(account, "tokenSecret", AccountAuthActivity.getConsumer().getTokenSecret());
 
             final Intent intent = new Intent();
 
             intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, username);
-            intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, ReadabilityAuthActivity.ACCOUNT_TYPE);
-            intent.putExtra(AccountManager.KEY_AUTHTOKEN, ReadabilityAuthActivity.ACCOUNT_TYPE);
+            intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, AccountAuthActivity.ACCOUNT_TYPE);
+            intent.putExtra(AccountManager.KEY_AUTHTOKEN, AccountAuthActivity.ACCOUNT_TYPE);
             this.context.setAccountAuthenticatorResult(intent.getExtras());
             this.context.setResult(Activity.RESULT_OK, intent);
 

@@ -15,9 +15,9 @@ import android.text.TextUtils;
  */
 public class AccountAuthenticator extends AbstractAccountAuthenticator {
     private Context context;
-    private ParserService sReadability;
+    private ReadabilityApi sReadability;
 
-    public AccountAuthenticator(ReadabilityAuthActivity context) {
+    public AccountAuthenticator(AccountAuthActivity context) {
         super(context);
         this.context = context;
     }
@@ -29,7 +29,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
             throws NetworkErrorException {
 
         final Bundle result = new Bundle();
-        final Intent intent = new Intent(this.context, ServiceGenerator.class);
+        final Intent intent = new Intent(this.context, ReadabilityFactory.class);
 
         intent.putExtra(AccountManager.KEY_AUTHTOKEN, authTokenType);
         intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
@@ -69,7 +69,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
         }
 
         //Couldn't access user/pass; re-prompt for credentials
-        final Intent i = new Intent(context, ServiceGenerator.class);
+        final Intent i = new Intent(context, ReadabilityFactory.class);
         i.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
         i.putExtra(Constants.ACCOUNT_TYPE, account.type);
         i.putExtra("", authTokenType);

@@ -1,5 +1,7 @@
 package com.treelzebub.readerbility.util;
 
+import retrofit.RestAdapter.LogLevel;
+
 /**
  * Created by Tre Murillo on 2/27/15.
  */
@@ -16,6 +18,6 @@ public class Constants {
     protected static final String CALLBACK_URL = "readability?action=return";
     protected static final String AUTHORIZATION_BASE_URL = BASE_URL + "/oauth/authorize/";
 
-    //TODO
-    public static final String ACCOUNT_TYPE = "com.treelzebub.readerbility";
+    protected static final String ACCOUNT_TYPE = "com.treelzebub.readerbility";
+    protected static final LogLevel LOG_LEVEL = LogLevel.HEADERS;
 }
