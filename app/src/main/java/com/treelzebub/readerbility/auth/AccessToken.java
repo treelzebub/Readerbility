@@ -1,7 +1,5 @@
 package com.treelzebub.readerbility.auth;
 
-import com.treelzebub.readerbility.util.Constants;
-
 import java.io.Serializable;
 
 import retrofit.client.Response;
@@ -16,20 +14,6 @@ public class AccessToken implements Serializable {
     protected String tokenSecret;
     protected long userId;
 
-    static AccessToken createEmptyToken() {
-        return new AccessToken(null, null, Constants.EMPTY_LONG);
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    private String tokenToString() {
-        if (this.token == null) return "null";
-        return "ACCESS_TOKEN_REMOVED";
-    }
-
-
     public AccessToken(Response response) {
         this.response = response;
     }
@@ -43,5 +27,14 @@ public class AccessToken implements Serializable {
         this.token = token;
         this.tokenSecret = tokenSecret;
         this.userId = userId;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    private String tokenToString() {
+        if (this.token == null) return "null";
+        return "ACCESS_TOKEN_REMOVED";
     }
 }

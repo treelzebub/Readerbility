@@ -22,25 +22,19 @@ import java.io.IOException;
  */
 public class AccountAuthActivity extends AccountAuthenticatorActivity {
 
-    private final Handler handler = new Handler();
+    private final Handler mHandler = new Handler();
+    private AccountManager mAccountManager;
 
-    public ProgressDialog mProgressDialog;
-
-    /**
-     * Called when the activity is first created.
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_authenticator);
 
-        final AccountManager acctMan = AccountManager.get(this);
-        final String authTokenType = "oauth2:https://www.googleapis.com/auth/ {...}"; //TODO what's the correct str here??
-        final Account[] accounts = acctMan.getAccountsByType(authTokenType);
+        mAccountManager = AccountManager.get(this);
+        final Account[] accounts = mAccountManager.getAccountsByType(Constants.AUTH_TOKEN_TYPE);
         final Account account = accounts[2];
-        final AccountAuthActivity cbt = this;
         final AccountManagerFuture<Bundle> amf =
-                acctMan.getAuthToken(accounts[0], authTokenType, null, cbt,
+                mAccountManager.getAuthToken(accounts[0], Constants.AUTH_TOKEN_TYPE, null, this,
                         //TODO good candidate for kotlin lambda; this is hideous
                 new AccountManagerCallback<Bundle>() {
 
@@ -55,10 +49,10 @@ public class AccountAuthActivity extends AccountAuthenticatorActivity {
                             if (result.containsKey(AccountManager.KEY_INTENT)) {
                                 i = (Intent) result.get(AccountManager.KEY_INTENT);
                                 if (i.toString().contains("GrantCredentialsPermissionActivity")) {
-                                    //wait for the user to accept
-                                    cbt.startActivity(i);
+                                    //TODO wait for the user to accept
+                                    startActivity(i);
                                 } else {
-                                    cbt.startActivity(i);
+                                    startActivity(i);
                                 }
 
                             } else {
@@ -73,10 +67,22 @@ public class AccountAuthActivity extends AccountAuthenticatorActivity {
                             Log.e("AuthenticatorException", e.getMessage());
                         }
                     }
-                }, handler);
+                }, mHandler);
 
         //TODO etc, etc, magic!
 
-        ProgressDialog progressDialog;
+        ProgressDialog mProgressDialog;
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        mAccountManager.invalidateAuthToken("", null); //null purges all old keys
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mAccountManager.invalidateAuthToken("", null);
     }
 }
