@@ -1,4 +1,4 @@
-package com.treelzebub.readerbility.util;
+package com.treelzebub.readerbility.auth;
 
 import android.accounts.AbstractAccountAuthenticator;
 import android.accounts.Account;
@@ -8,6 +8,11 @@ import android.accounts.NetworkErrorException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+
+import com.treelzebub.readerbility.util.AccountAuthActivity;
+import com.treelzebub.readerbility.util.Constants;
+import com.treelzebub.readerbility.util.ReadabilityApi;
+import com.treelzebub.readerbility.util.ReadabilityFactory;
 
 /**
  * Created by Tre Murillo on 3/1/15.

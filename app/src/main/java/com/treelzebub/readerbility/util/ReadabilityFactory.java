@@ -6,8 +6,9 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 
+import com.treelzebub.readerbility.auth.AccessToken;
+import com.treelzebub.readerbility.auth.AccountAuthenticator;
 import com.treelzebub.readerbility.error.ReadabilityErrorHandler;
-import com.treelzebub.readerbility.util.ReadabilityApi.AccessToken;
 
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter.Builder;
