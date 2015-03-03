@@ -22,23 +22,29 @@ public class ReadabilityFactory {
     private ReadabilityErrorHandler mErrorHandler;
 
     public <S> ReadabilityService createService(Class<S> serviceClass, String baseUrl, final AccessToken accessToken) {
-
-        if (sReadability == null && accessToken != null) {
+        if (accessToken != null) {
             Builder builder = new Builder();
             builder.setRequestInterceptor(new RequestInterceptor() {
                 @Override
                 public void intercept(RequestFacade request) {
                     request.addHeader("Accept", "application/json");
-                    request.addHeader("Authorization", Constants.AUTH_TOKEN_TYPE + "" + accessToken.getToken());
+                    request.addHeader("Authorization", Constants.AUTH_TOKEN_TYPE + " " + accessToken.getToken());
                 }
             });
             RestAdapter adapter = builder.build();
-            sReadability = (ReadabilityService) adapter.create(serviceClass);
+            return (ReadabilityService) adapter.create(serviceClass);
         }
-        return sReadability;
+        //TODO handle errors here or let Authenticator do it?
+        return null;
     }
 
+
     private class ReadabilityService extends Service {
+
+        @Override
+        public void onCreate() {
+            super.onCreate();
+        }
 
         @Override
         public IBinder onBind(@NonNull Intent intent) {
@@ -48,6 +54,15 @@ public class ReadabilityFactory {
             return null;
         }
 
+        @Override
+        public boolean onUnbind(Intent intent) {
+            return super.onUnbind(intent);
+        }
+
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+        }
     }
 
 }
