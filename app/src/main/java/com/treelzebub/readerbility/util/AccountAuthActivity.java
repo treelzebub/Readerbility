@@ -11,6 +11,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import com.treelzebub.readerbility.R;
 
@@ -46,23 +47,21 @@ public class AccountAuthActivity extends AccountAuthenticatorActivity {
         account = accounts[2];
 
         amf = acctMan.getAuthToken(accounts[0], authTokenType, null, cbt,
+                //TODO good candidate for kotlin lambda
                 new AccountManagerCallback<Bundle>() {
 
                     @Override
-                    public void run(AccountManagerFuture<Bundle> arg0) {
-
+                    public void run(AccountManagerFuture<Bundle> accountManagerCallback) {
                         try {
                             Bundle result;
                             Intent i;
                             String token;
 
-                            result = arg0.getResult();
+                            result = accountManagerCallback.getResult();
                             if (result.containsKey(AccountManager.KEY_INTENT)) {
                                 i = (Intent) result.get(AccountManager.KEY_INTENT);
                                 if (i.toString().contains("GrantCredentialsPermissionActivity")) {
-                                    // Will have to wait for the user to accept
-                                    // the request therefore this will have to
-                                    // run in a foreground application
+                                    //wait for the user to accept
                                     cbt.startActivity(i);
                                 } else {
                                     cbt.startActivity(i);
@@ -70,30 +69,16 @@ public class AccountAuthActivity extends AccountAuthenticatorActivity {
 
                             } else {
                                 token = (String) result.get(AccountManager.KEY_AUTHTOKEN);
-
-                                /*
-                                 * work with token
-                                 */
-
-                                // Remember to invalidate the token if the web service rejects it
-                                // if(response.isTokenInvalid()){
-                                //    acctMan.invalidateAuthToken(authTokenType, token);
-                                // }
-
+                                //TODO work with token
                             }
                         } catch (OperationCanceledException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        } catch (AuthenticatorException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
+                            Log.e("OperationCanceled", e.getMessage());
                         } catch (IOException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
+                            Log.e("IOException", e.getMessage());
+                        } catch (AuthenticatorException e) {
+                            Log.e("AuthenticatorException", e.getMessage());
                         }
-
                     }
                 }, handler);
-
     }
 }
