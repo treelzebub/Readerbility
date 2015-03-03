@@ -3,6 +3,10 @@ package com.treelzebub.readerbility.util;
 import com.google.gson.Gson;
 import com.squareup.okhttp.OkHttpClient;
 import com.treelzebub.readerbility.error.ReadabilityErrorHandler;
+import com.treelzebub.readerbility.thing.Bookmark;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
@@ -59,6 +63,7 @@ public class ReadabilityApi {
         return mGson;
     }
 
+    //signpost stuff that i don't understand
     public static CommonsHttpOAuthConsumer getConsumer() {
         return mConsumer == null ?
                 new CommonsHttpOAuthConsumer(Constants.CONSUMER_KEY, Constants.CONSUMER_SECRET) :
@@ -72,5 +77,15 @@ public class ReadabilityApi {
             mProvider.setOAuth10a(true);
         }
         return mProvider;
+    }
+    ////////
+
+
+    public List<Bookmark> getLibrary() {
+        List<Bookmark> library = new ArrayList<>();
+
+        //toDO THE DAMN THING
+
+        return library;
     }
 }

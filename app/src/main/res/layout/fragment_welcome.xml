@@ -3,6 +3,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
+
     <TextView
         android:id="@+id/main_title"
         android:layout_width="wrap_content"
@@ -16,7 +17,7 @@
         android:text="Browse My Library"/>
 
     <Button
-        android:id="@+id/create_new_button"
+        android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Create New Magazine"/>

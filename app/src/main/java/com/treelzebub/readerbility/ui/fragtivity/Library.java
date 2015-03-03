@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,30 +23,24 @@ import java.util.List;
  */
 public class Library {
 
-    public class LibraryActivity extends FragmentActivity {
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
-
-        }
-    }
-
     public static class LibraryFragment extends ListFragment {
         public static final String TAG = "library_fragment";
 
-        private LibraryFragment mLibraryFrag;
+        private static LibraryFragment mLibraryFrag;
 
         public LibraryFragment() {
+        }
+
+        public static LibraryFragment getInstance() {
+            return mLibraryFrag == null ? mLibraryFrag = new LibraryFragment() : mLibraryFrag;
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                                  @Nullable Bundle savedInstanceState) {
             super.onCreateView(inflater, container, savedInstanceState);
-            List libraryList = new ArrayList<Article>();
 
+            List libraryList = new ArrayList<Article>();
             View v = inflater.inflate(R.layout.fragment_library, container, false);
             ListView listView = (ListView) v.findViewById(android.R.id.list);
             LibraryAdapter adapter = new LibraryAdapter(getActivity());

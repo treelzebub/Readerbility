@@ -1,4 +1,4 @@
-package com.treelzebub.readerbility;
+package com.treelzebub.readerbility.ui.fragtivity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -13,11 +13,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.treelzebub.readerbility.NavigationDrawerFragment;
+import com.treelzebub.readerbility.NavigationDrawerFragment.NavigationDrawerCallbacks;
+import com.treelzebub.readerbility.R;
 import com.treelzebub.readerbility.ui.fragtivity.Welcome.WelcomeFragment;
 
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerCallbacks {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.

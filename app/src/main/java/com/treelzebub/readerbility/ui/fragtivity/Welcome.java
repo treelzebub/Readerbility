@@ -13,6 +13,9 @@ import android.widget.Button;
 
 import com.treelzebub.readerbility.R;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 /**
  * Created by Tre Murillo on 2/27/15.
  */
@@ -67,14 +70,17 @@ public class Welcome {
 
         }
 
+        @InjectView(R.id.browse_button)
+        Button browseButton;
+        @InjectView(R.id.login_button)
+        Button loginButton;
+
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                                  @Nullable Bundle savedInstanceState) {
             super.onCreateView(inflater, container, savedInstanceState);
-
             View v = inflater.inflate(R.layout.fragment_welcome, container, false);
-            Button browseButton = (Button) v.findViewById(R.id.browse_button);
-            Button createNewButton = (Button) v.findViewById(R.id.create_new_button);
+            ButterKnife.inject(this, v);
 
             browseButton.setOnClickListener(new OnClickListener() {
                 @Override
@@ -86,10 +92,10 @@ public class Welcome {
                 }
             });
 
-            createNewButton.setOnClickListener(new OnClickListener() {
+            loginButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    //TODO
                 }
             });
 
