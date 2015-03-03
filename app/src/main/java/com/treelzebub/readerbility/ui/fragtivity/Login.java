@@ -29,7 +29,6 @@ public class Login {
             if (loginFragment == null) {
                 loginFragment = new LoginFragment();
             }
-
             return loginFragment;
         }
 
