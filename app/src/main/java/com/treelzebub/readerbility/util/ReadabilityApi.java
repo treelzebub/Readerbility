@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.squareup.okhttp.OkHttpClient;
 import com.treelzebub.readerbility.error.ReadabilityErrorHandler;
 
+import java.io.InputStream;
+
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
 import retrofit.RestAdapter;
@@ -37,6 +39,12 @@ public class ReadabilityApi {
         getProvider();
         mGson = new Gson();
         mErrorHandler = new ReadabilityErrorHandler();
+    }
+
+    public InputStream getStream(String url) {
+//        Request request = new Request("str method", "str url", "List<headers>", "TypedOutput body");
+
+//        mClient.execute(request).getBody().toString();
     }
 
     public static OkClient getClient(OkHttpClient client) {
