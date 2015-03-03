@@ -44,5 +44,4 @@ public class AccessToken implements Serializable {
         this.tokenSecret = tokenSecret;
         this.userId = userId;
     }
-
 }

@@ -15,7 +15,8 @@ import retrofit.converter.GsonConverter;
  * Created by Tre Murillo on 2/27/15.
  */
 public class ReadabilityApi {
-    private static ReadabilityApi mApi = null;
+    private static ReadabilityApi mApi;
+
     private static OkClient mClient;
     private static RestAdapter mRestAdapter;
     private static CommonsHttpOAuthConsumer mConsumer;
@@ -23,14 +24,11 @@ public class ReadabilityApi {
     private static Gson mGson;
     private static ReadabilityErrorHandler mErrorHandler;
 
-    public ReadabilityApi() {
-        if (mApi == null) {
-            mApi = new ReadabilityApi();
-            init();
-        }
+    public ReadabilityApi getInstance() {
+        return mApi == null ? mApi = new ReadabilityApi() : mApi;
     }
 
-    private static void init() {
+    public ReadabilityApi() {
         getClient(new OkHttpClient());
         getAdapter();
         getConsumer();

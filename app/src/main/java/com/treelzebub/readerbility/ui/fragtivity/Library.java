@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -38,18 +37,9 @@ public class Library {
     public static class LibraryFragment extends ListFragment {
         public static final String TAG = "library_fragment";
 
-        private static LibraryFragment libraryFrag = null;
+        private LibraryFragment mLibraryFrag;
 
         public LibraryFragment() {
-        }
-
-        public static Fragment getInstance() {
-            if (libraryFrag == null) {
-                libraryFrag = new LibraryFragment();
-                libraryFrag.setListAdapter(new LibraryAdapter());
-            }
-
-            return libraryFrag;
         }
 
         @Override
@@ -60,22 +50,17 @@ public class Library {
 
             View v = inflater.inflate(R.layout.fragment_library, container, false);
             ListView listView = (ListView) v.findViewById(android.R.id.list);
-
-            setListAdapter(LibraryAdapter.getInstance(getActivity()));
+            LibraryAdapter adapter = new LibraryAdapter(getActivity());
+            setListAdapter(adapter);
 
             return v;
         }
 
-    }
+        private class LibraryAdapter extends BaseAdapter {
+            List<Article> mLibrary;
+            LayoutInflater mInflater;
 
-    private static class LibraryAdapter extends BaseAdapter {
-        static LibraryAdapter mAdapter;
-        static List<Article> mLibrary;
-        static LayoutInflater mInflater;
-
-        static LibraryAdapter getInstance(Context c) {
-            if (mAdapter == null) {
-                mAdapter = new LibraryAdapter();
+            LibraryAdapter(Context c) {
                 mLibrary = new ArrayList<Article>();
                 mInflater = LayoutInflater.from(c);
 
@@ -91,52 +76,51 @@ public class Library {
                 mLibrary.add(new Article("Another Article", "http://www.asdf.com"));
                 ////            }
             }
-            return mAdapter;
-        }
 
-        @Override
-        public int getCount() {
-            return mLibrary.size();
-        }
-
-        @Override
-        public Article getItem(int i) {
-            return mLibrary.get(i);
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int i, View convertView, @NonNull ViewGroup parent) {
-            View view;
-            ViewHolder holder;
-
-            if (convertView == null) {
-                view = mInflater.inflate(R.layout.list_item_library, parent, false);
-                holder = new ViewHolder();
-
-                holder.titleTV = (TextView) view.findViewById(R.id.library_item_title);
-                holder.dateTV = (TextView) view.findViewById(R.id.library_item_date);
-
-                view.setTag(holder);
-            } else {
-                view = convertView;
-                holder = (ViewHolder) view.getTag();
+            @Override
+            public int getCount() {
+                return mLibrary.size();
             }
 
-            Article bookmark = mLibrary.get(i);
+            @Override
+            public Article getItem(int i) {
+                return mLibrary.get(i);
+            }
 
-            holder.dateTV.setText(bookmark.url);
-            holder.titleTV.setText(bookmark.title);
+            @Override
+            public long getItemId(int i) {
+                return 0;
+            }
 
-            return view;
-        }
+            @Override
+            public View getView(int i, View convertView, @NonNull ViewGroup parent) {
+                View v;
+                ViewHolder holder;
 
-        private class ViewHolder {
-            public TextView titleTV, dateTV;
+                if (convertView == null) {
+                    v = mInflater.inflate(R.layout.list_item_library, parent, false);
+                    holder = new ViewHolder();
+
+                    holder.titleTV = (TextView) v.findViewById(R.id.library_item_title);
+                    holder.dateTV = (TextView) v.findViewById(R.id.library_item_date);
+
+                    v.setTag(holder);
+                } else {
+                    v = convertView;
+                    holder = (ViewHolder) v.getTag();
+                }
+
+                Article bookmark = mLibrary.get(i);
+
+                holder.dateTV.setText(bookmark.url);
+                holder.titleTV.setText(bookmark.title);
+
+                return v;
+            }
+
+            private class ViewHolder {
+                public TextView titleTV, dateTV;
+            }
         }
     }
 }

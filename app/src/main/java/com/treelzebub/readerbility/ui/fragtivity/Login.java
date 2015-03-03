@@ -20,16 +20,13 @@ public class Login {
     public static class LoginFragment extends Fragment {
         public static final String TAG = "login_fragment";
 
-        private static LoginFragment loginFragment;
+        private static LoginFragment mLoginFragment;
 
         public LoginFragment() {
         }
 
         public static Fragment getInstance(Context c) {
-            if (loginFragment == null) {
-                loginFragment = new LoginFragment();
-            }
-            return loginFragment;
+            return mLoginFragment == null ? mLoginFragment = new LoginFragment() : mLoginFragment;
         }
 
 
