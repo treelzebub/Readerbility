@@ -30,7 +30,7 @@ public class ReadabilityApi {
 
     public ReadabilityApi() {
         getClient(new OkHttpClient());
-        getAdapter();
+        getRestAdapter();
         getConsumer();
         getProvider();
         mGson = new Gson();
@@ -42,7 +42,7 @@ public class ReadabilityApi {
         return mClient;
     }
 
-    public static RestAdapter getAdapter() {
+    public static RestAdapter getRestAdapter() {
         if (mRestAdapter == null) {
             RestAdapter.Builder builder = new Builder()
                     .setEndpoint(Constants.BASE_URL)
@@ -51,7 +51,6 @@ public class ReadabilityApi {
                     .setErrorHandler(mErrorHandler)
                     .setClient(getClient(new OkHttpClient()));
             mRestAdapter = builder.build();
-            return mRestAdapter;
         }
         return mRestAdapter;
     }
@@ -61,11 +60,9 @@ public class ReadabilityApi {
     }
 
     public static CommonsHttpOAuthConsumer getConsumer() {
-        if (mConsumer == null) {
-            mConsumer = new CommonsHttpOAuthConsumer(
-                    Constants.CONSUMER_KEY, Constants.CONSUMER_SECRET);
-        }
-        return mConsumer;
+        return mConsumer == null ?
+                new CommonsHttpOAuthConsumer(Constants.CONSUMER_KEY, Constants.CONSUMER_SECRET) :
+                mConsumer;
     }
 
     public static CommonsHttpOAuthProvider getProvider() {

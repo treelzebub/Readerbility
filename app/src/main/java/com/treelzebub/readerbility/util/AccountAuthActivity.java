@@ -34,20 +34,14 @@ public class AccountAuthActivity extends AccountAuthenticatorActivity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_authenticator);
 
-        final AccountManager acctMan;
-        final Account[] accounts;
-        final Account account;
-        final AccountManagerFuture<Bundle> amf;
+        final AccountManager acctMan = AccountManager.get(this);
+        String authTokenType = "oauth2:https://www.googleapis.com/auth/"; //TODO what's the correct str here??
+        final Account[] accounts = acctMan.getAccountsByType(authTokenType);
+        final Account account = accounts[2];
         final AccountAuthActivity cbt = this;
-        String authTokenType;
-
-        acctMan = AccountManager.get(this);
-        authTokenType = "oauth2:https://www.googleapis.com/auth/"; //TODO what's the correct str here??
-        accounts = acctMan.getAccountsByType(authTokenType);
-        account = accounts[2];
-
-        amf = acctMan.getAuthToken(accounts[0], authTokenType, null, cbt,
-                //TODO good candidate for kotlin lambda
+        final AccountManagerFuture<Bundle> amf =
+                acctMan.getAuthToken(accounts[0], authTokenType, null, cbt,
+                        //TODO good candidate for kotlin lambda; this is hideous
                 new AccountManagerCallback<Bundle>() {
 
                     @Override
