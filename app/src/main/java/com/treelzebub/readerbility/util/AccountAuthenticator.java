@@ -5,7 +5,6 @@ import android.accounts.Account;
 import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
 import android.accounts.NetworkErrorException;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,12 +13,18 @@ import android.text.TextUtils;
  * Created by Tre Murillo on 3/1/15.
  */
 public class AccountAuthenticator extends AbstractAccountAuthenticator {
-    private Context context;
+    private static AccountAuthenticator mAccountAuthenticator = null;
+    private AccountAuthActivity context;
     private ReadabilityApi sReadability;
 
-    public AccountAuthenticator(AccountAuthActivity context) {
-        super(context);
-        this.context = context;
+    public AccountAuthenticator(AccountAuthActivity c) {
+        super(c);
+        this.context = c;
+        mAccountAuthenticator = new AccountAuthenticator(c);
+    }
+
+    static public AccountAuthenticator getInstance() {
+        return mAccountAuthenticator;
     }
 
     @Override

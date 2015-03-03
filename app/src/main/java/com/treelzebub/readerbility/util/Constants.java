@@ -20,4 +20,6 @@ public class Constants {
 
     protected static final String ACCOUNT_TYPE = "com.treelzebub.readerbility";
     protected static final LogLevel LOG_LEVEL = LogLevel.HEADERS;
+    static final String AUTH_TOKEN_TYPE = BASE_URL;
+    static final long EMPTY_LONG = 0L;
 }
