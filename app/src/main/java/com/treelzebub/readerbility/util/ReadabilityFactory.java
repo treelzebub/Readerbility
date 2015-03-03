@@ -10,7 +10,6 @@ import com.treelzebub.readerbility.error.ReadabilityErrorHandler;
 import com.treelzebub.readerbility.util.ReadabilityApi.AccessToken;
 
 import retrofit.RequestInterceptor;
-import retrofit.RestAdapter;
 import retrofit.RestAdapter.Builder;
 
 /**
@@ -27,12 +26,12 @@ public class ReadabilityFactory {
             builder.setRequestInterceptor(new RequestInterceptor() {
                 @Override
                 public void intercept(RequestFacade request) {
+                    request.addHeader("User-Agent", Constants.USER_AGENT);
                     request.addHeader("Accept", "application/json");
-                    request.addHeader("Authorization", Constants.AUTH_TOKEN_TYPE + " " + accessToken.getToken());
+                    request.addHeader("Authorization", Constants.AUTH_TOKEN_TYPE + accessToken.getToken());
                 }
             });
-            RestAdapter adapter = builder.build();
-            return (ReadabilityService) adapter.create(serviceClass);
+            return (ReadabilityService) builder.build().create(serviceClass);
         }
         //TODO handle errors here or let Authenticator do it?
         return null;
