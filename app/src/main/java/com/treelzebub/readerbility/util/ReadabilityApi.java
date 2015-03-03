@@ -28,7 +28,7 @@ public class ReadabilityApi {
     private static Gson mGson;
     private static ReadabilityErrorHandler mErrorHandler;
 
-    public ReadabilityApi getInstance() {
+    public static ReadabilityApi getInstance() {
         return mApi == null ? mApi = new ReadabilityApi() : mApi;
     }
 

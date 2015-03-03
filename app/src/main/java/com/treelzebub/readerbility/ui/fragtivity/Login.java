@@ -1,19 +1,10 @@
 package com.treelzebub.readerbility.ui.fragtivity;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.accounts.AccountManagerCallback;
-import android.accounts.AccountManagerFuture;
-import android.accounts.AuthenticatorException;
-import android.accounts.OperationCanceledException;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,9 +14,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.treelzebub.readerbility.R;
+import com.treelzebub.readerbility.util.AuthUtils.AccountManagerAuth;
 import com.treelzebub.readerbility.util.Constants;
-
-import java.io.IOException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -36,69 +26,27 @@ import butterknife.InjectView;
 public class Login {
 
     public class LoginActivity extends FragmentActivity {
-        private final Handler mHandler = new Handler();
-        private AccountManager mAccountManager;
 
-        @InjectView(R.id.progress_bar)
-        ProgressBar progressBar;
+        @InjectView(R.id.progress_bar) ProgressBar progressBar;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             this.setContentView(R.layout.activity_authenticator);
 
-            mAccountManager = AccountManager.get(this);
-            final Account[] accounts = mAccountManager.getAccountsByType(Constants.AUTH_TOKEN_TYPE);
-            final Account account = accounts[2];
-            final AccountManagerFuture<Bundle> amf =
-                    mAccountManager.getAuthToken(accounts[0], Constants.AUTH_TOKEN_TYPE, null, this,
-                            //TODO good candidate for kotlin lambda; this is hideous
-                            new AccountManagerCallback<Bundle>() {
 
-                                @Override
-                                public void run(AccountManagerFuture<Bundle> accountManagerCallback) {
-                                    try {
-                                        Bundle result;
-                                        Intent i;
-                                        String token;
-
-                                        result = accountManagerCallback.getResult();
-                                        if (result.containsKey(AccountManager.KEY_INTENT)) {
-                                            i = (Intent) result.get(AccountManager.KEY_INTENT);
-                                            if (i.toString().contains("GrantCredentialsPermissionActivity")) {
-                                                //TODO wait for the user to accept
-                                                startActivity(i);
-                                            } else {
-                                                startActivity(i);
-                                            }
-
-                                        } else {
-                                            token = (String) result.get(AccountManager.KEY_AUTHTOKEN);
-                                            //TODO work with token
-                                        }
-                                    } catch (OperationCanceledException e) {
-                                        Log.e("OperationCanceled", e.getMessage());
-                                    } catch (IOException e) {
-                                        Log.e("IOException", e.getMessage());
-                                    } catch (AuthenticatorException e) {
-                                        Log.e("AuthenticatorException", e.getMessage());
-                                    }
-                                }
-                            }, mHandler);
-
-            //TODO etc, etc, magic!
         }
 
         @Override
         public void finish() {
             super.finish();
-            mAccountManager.invalidateAuthToken("", null); //null purges all old keys
+            AccountManagerAuth.getAccountMan().invalidateAuthToken(Constants.ACCOUNT_TYPE, AccountManagerAuth.getToken()); //null token purges all old keys
         }
 
         @Override
         protected void onDestroy() {
             super.onDestroy();
-            mAccountManager.invalidateAuthToken("", null);
+            AccountManagerAuth.getAccountMan().invalidateAuthToken(Constants.ACCOUNT_TYPE, AccountManagerAuth.getToken());
         }
     }
 
@@ -138,6 +86,7 @@ public class Login {
         @Override
         public void onClick(View v) {
             //TODO validated ? doLibraryStuff : refresh(this)
+
         }
     }
 
