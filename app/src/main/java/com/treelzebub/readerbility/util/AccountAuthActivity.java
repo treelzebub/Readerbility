@@ -35,7 +35,7 @@ public class AccountAuthActivity extends AccountAuthenticatorActivity {
         this.setContentView(R.layout.activity_authenticator);
 
         final AccountManager acctMan = AccountManager.get(this);
-        String authTokenType = "oauth2:https://www.googleapis.com/auth/"; //TODO what's the correct str here??
+        final String authTokenType = "oauth2:https://www.googleapis.com/auth/ {...}"; //TODO what's the correct str here??
         final Account[] accounts = acctMan.getAccountsByType(authTokenType);
         final Account account = accounts[2];
         final AccountAuthActivity cbt = this;
@@ -74,5 +74,9 @@ public class AccountAuthActivity extends AccountAuthenticatorActivity {
                         }
                     }
                 }, handler);
+
+        //TODO etc, etc, magic!
+
+        ProgressDialog progressDialog;
     }
 }
