@@ -1,5 +1,6 @@
 package com.treelzebub.readerbility.ui.fragtivity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,7 +28,8 @@ public class Login {
 
     public class LoginActivity extends FragmentActivity {
 
-        @InjectView(R.id.progress_bar) ProgressBar progressBar;
+        @InjectView(R.id.progress_bar)
+        ProgressBar progressBar;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -69,15 +71,13 @@ public class Login {
         @InjectView(R.id.submit_button)
         Button submitBtn;
 
-
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             super.onCreateView(inflater, container, savedInstanceState);
             View v = inflater.inflate(R.layout.fragment_login, container, false);
             ButterKnife.inject(this, v);
 
-            //usernameEdit ...
-            //pwdEdit      ...
+            usernameEdit.setKeyListener();
             submitBtn.setOnClickListener(this);
 
             return v;
@@ -85,9 +85,11 @@ public class Login {
 
         @Override
         public void onClick(View v) {
-            //TODO validated ? doLibraryStuff : refresh(this)
-
+            //TODO validated ? start Library : refresh(this)
+            new ProgressDialog(getActivity());
         }
+
+
     }
 
 }
