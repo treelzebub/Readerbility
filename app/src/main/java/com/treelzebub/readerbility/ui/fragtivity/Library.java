@@ -26,13 +26,7 @@ public class Library {
     public static class LibraryFragment extends ListFragment {
         public static final String TAG = "library_fragment";
 
-        private static LibraryFragment mLibraryFrag;
-
         public LibraryFragment() {
-        }
-
-        public static LibraryFragment getInstance() {
-            return mLibraryFrag == null ? mLibraryFrag = new LibraryFragment() : mLibraryFrag;
         }
 
         @Override

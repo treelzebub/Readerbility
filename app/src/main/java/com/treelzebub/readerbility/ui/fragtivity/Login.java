@@ -1,7 +1,7 @@
 package com.treelzebub.readerbility.ui.fragtivity;
 
 import android.app.ProgressDialog;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.common.AccountPicker;
 import com.treelzebub.readerbility.R;
 import com.treelzebub.readerbility.util.AuthUtils.AccountManagerAuth;
 import com.treelzebub.readerbility.util.Constants;
@@ -53,15 +54,12 @@ public class Login {
     }
 
     public static class LoginFragment extends Fragment implements OnClickListener {
-        public static final String TAG = "login_fragment";
+        public static final String TAG = "loginFragment";
 
-        private static LoginFragment mLoginFragment;
+        //Intent
+        private static final int REQUEST_CODE_PICK_ACCOUNT = 1000;
 
         public LoginFragment() {
-        }
-
-        public static Fragment getInstance(Context c) {
-            return mLoginFragment == null ? mLoginFragment = new LoginFragment() : mLoginFragment;
         }
 
         @InjectView(R.id.username_edit)
@@ -77,7 +75,6 @@ public class Login {
             View v = inflater.inflate(R.layout.fragment_login, container, false);
             ButterKnife.inject(this, v);
 
-            usernameEdit.setKeyListener();
             submitBtn.setOnClickListener(this);
 
             return v;
@@ -89,6 +86,12 @@ public class Login {
             new ProgressDialog(getActivity());
         }
 
+        private void pickUserAccount() {
+            String[] accountTypes = new String[]{"com.google"};
+            Intent intent = AccountPicker.newChooseAccountIntent(null, null,
+                    accountTypes, false, null, null, null, null);
+            startActivityForResult(intent, REQUEST_CODE_PICK_ACCOUNT);
+        }
 
     }
 

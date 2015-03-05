@@ -54,14 +54,7 @@ public class Welcome {
     public static class WelcomeFragment extends Fragment {
         public static final String TAG = "welcome_fragment";
 
-        private static WelcomeFragment welcomeFrag = null;
-
         public WelcomeFragment() {
-        }
-
-        public static Fragment getInstance() {
-            if (welcomeFrag == null) welcomeFrag = new WelcomeFragment();
-            return welcomeFrag;
         }
 
         @Override
@@ -87,7 +80,7 @@ public class Welcome {
                 public void onClick(View v) {
                     getFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.container, Library.LibraryFragment.getInstance())
+                            .replace(R.id.container, new Library.LibraryFragment())
                             .commit();
                 }
             });
