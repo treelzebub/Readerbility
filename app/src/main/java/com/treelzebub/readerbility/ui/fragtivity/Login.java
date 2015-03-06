@@ -1,6 +1,7 @@
 package com.treelzebub.readerbility.ui.fragtivity;
 
-import android.app.ProgressDialog;
+import android.accounts.AccountManager;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,9 +14,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.android.gms.common.AccountPicker;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.treelzebub.readerbility.R;
+import com.treelzebub.readerbility.util.AuthUtils;
 import com.treelzebub.readerbility.util.AuthUtils.AccountManagerAuth;
 import com.treelzebub.readerbility.util.Constants;
 
@@ -35,15 +40,14 @@ public class Login {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            this.setContentView(R.layout.activity_authenticator);
-
+            ButterKnife.inject(this);
 
         }
 
         @Override
         public void finish() {
             super.finish();
-            AccountManagerAuth.getAccountMan().invalidateAuthToken(Constants.ACCOUNT_TYPE, AccountManagerAuth.getToken()); //null token purges all old keys
+            AuthUtils.invalidateToken();
         }
 
         @Override
@@ -57,10 +61,15 @@ public class Login {
         public static final String TAG = "loginFragment";
 
         //Intent
-        private static final int REQUEST_CODE_PICK_ACCOUNT = 1000;
+        static final int REQUEST_CODE_PICK_ACCOUNT = 1000;
+        static final int REQUEST_CODE_RECOVER_PLAY_SERVICES = 1001;
+
+        private String mEmail;
 
         public LoginFragment() {
         }
+
+        private Activity mActivity;
 
         @InjectView(R.id.username_edit)
         EditText usernameEdit;
@@ -68,6 +77,37 @@ public class Login {
         EditText pwdEdit;
         @InjectView(R.id.submit_button)
         Button submitBtn;
+
+        //Lifecycle
+        @Override
+        public void onStart() {
+            super.onStart();
+            mActivity = getActivity();
+        }
+
+        @Override
+        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+            switch (requestCode) {
+                case REQUEST_CODE_PICK_ACCOUNT:
+                    if (resultCode == Activity.RESULT_CANCELED) {
+                        Toast.makeText(mActivity, "Google Play Services must be installed.",
+                                Toast.LENGTH_LONG).show();
+                        mActivity.finish();
+                    } else if (resultCode == Activity.RESULT_OK) {
+                        mEmail = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+                    }
+                    return;
+            }
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            if (checkPlayServices()) {
+                //TODO stuff
+            }
+        }
 
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -80,18 +120,46 @@ public class Login {
             return v;
         }
 
+
+        //Interface
         @Override
         public void onClick(View v) {
             //TODO validated ? start Library : refresh(this)
-            new ProgressDialog(getActivity());
+            //new ProgressDialog(mActivity);
         }
 
-        private void pickUserAccount() {
+        //
+        private boolean checkPlayServices() {
+            int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity);
+
+            if (status != ConnectionResult.SUCCESS) {
+                if (GooglePlayServicesUtil.isUserRecoverableError(status)) {
+                    showErrorDialog(status);
+                } else {
+                    Toast.makeText(getActivity(), "This device is not supported.", Toast.LENGTH_LONG).show();
+                    getActivity().finish(); //TODO handle this properly
+                }
+                return false;
+            }
+            return true;
+        }
+
+        private void checkUserAccount() {
+            String accountName = AuthUtils.getAccountName(mActivity);
+            if (accountName == null) showAccountPicker();
+        }
+
+        private void showErrorDialog(int code) {
+            GooglePlayServicesUtil.getErrorDialog(code, mActivity, REQUEST_CODE_RECOVER_PLAY_SERVICES).show();
+        }
+
+        private void showAccountPicker() {
             String[] accountTypes = new String[]{"com.google"};
             Intent intent = AccountPicker.newChooseAccountIntent(null, null,
                     accountTypes, false, null, null, null, null);
             startActivityForResult(intent, REQUEST_CODE_PICK_ACCOUNT);
         }
+
 
     }
 

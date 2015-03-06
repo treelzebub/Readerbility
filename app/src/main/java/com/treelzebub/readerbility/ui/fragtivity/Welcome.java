@@ -52,7 +52,7 @@ public class Welcome {
     }
 
     public static class WelcomeFragment extends Fragment {
-        public static final String TAG = "welcome_fragment";
+        public static final String TAG = "welcomeFragment";
 
         public WelcomeFragment() {
         }

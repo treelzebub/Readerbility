@@ -18,33 +18,39 @@ import com.treelzebub.readerbility.thing.Article;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 /**
  * Created by Tre Murillo on 2/27/15.
  */
 public class Library {
+    private static List<Article> mLibrary;
 
     public static class LibraryFragment extends ListFragment {
-        public static final String TAG = "library_fragment";
+        public static final String TAG = "libraryFragment";
 
         public LibraryFragment() {
         }
+
+        @InjectView(android.R.id.list) ListView mListView;
 
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                                  @Nullable Bundle savedInstanceState) {
             super.onCreateView(inflater, container, savedInstanceState);
+            View v = new View(getActivity());
+            ButterKnife.inject(this, v);
 
-            List libraryList = new ArrayList<Article>();
-            View v = inflater.inflate(R.layout.fragment_library, container, false);
-            ListView listView = (ListView) v.findViewById(android.R.id.list);
             LibraryAdapter adapter = new LibraryAdapter(getActivity());
-            setListAdapter(adapter);
 
+            setListAdapter(adapter);
             return v;
         }
 
+// *****
         private class LibraryAdapter extends BaseAdapter {
-            List<Article> mLibrary;
+
             LayoutInflater mInflater;
 
             LibraryAdapter(Context c) {
