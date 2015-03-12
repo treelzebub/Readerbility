@@ -1,4 +1,4 @@
-package com.treelzebub.readerbility.util;
+package com.treelzebub.readerbility.auth;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 
 import com.google.android.gms.auth.GoogleAuthUtil;
+import com.treelzebub.readerbility.util.Constants;
 
 /**
  * Created by Tre Murillo on 3/3/15.
@@ -82,14 +83,6 @@ public class AuthUtils {
 
         }
 
-        public static AccountManager getAccountMan() {
-            return mAccountManager;
-        }
-
-        public static String getToken() {
-            return mGoogleToken;
-        }
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -99,8 +92,6 @@ public class AuthUtils {
 
         @Override
         protected String doInBackground(String... params) {
-
-
 
             return null;
         }
@@ -114,6 +105,16 @@ public class AuthUtils {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
         }
+
+        public static AccountManager getAccountMan() {
+            return mAccountManager;
+        }
+
+        public static String getToken() {
+            return mGoogleToken;
+        }
+
+        public static boolean isAuthenticated() { return mGoogleToken != null; }
 
     }
 

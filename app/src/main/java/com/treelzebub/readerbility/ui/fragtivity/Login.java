@@ -2,13 +2,11 @@ package com.treelzebub.readerbility.ui.fragtivity;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,8 +21,8 @@ import com.google.android.gms.common.AccountPicker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.treelzebub.readerbility.R;
-import com.treelzebub.readerbility.util.AuthUtils;
-import com.treelzebub.readerbility.util.AuthUtils.AccountManagerAuth;
+import com.treelzebub.readerbility.auth.AuthUtils;
+import com.treelzebub.readerbility.auth.AuthUtils.AccountManagerAuth;
 import com.treelzebub.readerbility.util.Constants;
 
 import butterknife.ButterKnife;
@@ -75,7 +73,7 @@ public class Login {
         private Context mActivity;
 
         @InjectView(R.id.username_edit) EditText usernameEdit;
-        @InjectView(R.id.pwd_edit) EditText pwdEdit;
+        @InjectView(R.id.pwd_edit) EditText passEdit;
         @InjectView(R.id.submit_button) Button submitBtn;
 
         //Lifecycle
@@ -125,7 +123,17 @@ public class Login {
         @Override
         public void onClick(View v) {
             //TODO validated ? start Library : refresh(this)
-            //new ProgressDialog(mActivity);
+            String username = usernameEdit.getText().toString();
+            String pass = passEdit.getText().toString();
+            if (v.getTag().equals("submit") && isValidated(username, pass)) {
+
+            }
+        }
+
+        private boolean isValidated(String username, String pass) {
+
+
+            return false;
         }
 
         //

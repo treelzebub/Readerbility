@@ -1,4 +1,4 @@
-package com.treelzebub.readerbility.util;
+package com.treelzebub.readerbility.auth;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -43,7 +43,7 @@ public class GetUsernameTask extends AsyncTask<Void, Void, Void> {
             // GooglePlayServices.apk is either old, disable, or not present
             // AuthUtils.recover();
         } catch (GoogleAuthException e) {
-            Log.e("Fatal Error fetching token", e.getMessage());
+            Log.e("Error fetching token", e.getMessage());
         }
         return null;
     }

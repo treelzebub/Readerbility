@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_width="@dimen/dialog_fixed_width_minor"
     android:layout_height="match_parent"
     android:background="@color/background_floating_material_light"
@@ -13,13 +13,14 @@
         android:indeterminate="false"
         android:layout_width="@dimen/abc_action_bar_progress_bar_size"
         android:layout_height="@dimen/abc_action_bar_progress_bar_size"
-        android:padding="@dimen/abc_control_padding_material" />
+        android:padding="@dimen/abc_control_padding_material"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/loading_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Authenticating..." />
+        android:text="Sign in to Play Services" />
 
     <fragment
         android:name="com.treelzebub.readerbility.ui.fragtivity.Login$LoginFragment"
