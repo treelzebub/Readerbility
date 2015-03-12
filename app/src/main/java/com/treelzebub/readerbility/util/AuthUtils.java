@@ -23,7 +23,7 @@ public class AuthUtils {
 
     private static String mCurrentUser = null;
 
-    public static Account getGoggleAccountByName(Context c, String accountName) {
+    public static Account getGoogleAccountByName(Context c, String accountName) {
         if (accountName != null) {
             AccountManager accountMan = AccountManager.get(c);
             Account[] accounts = accountMan.getAccountsByType(GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE);
@@ -117,7 +117,7 @@ public class AuthUtils {
 
     }
 
-    public class ReadabilityAuth {
+    public static class ReadabilityAuth {
         //TODO need?
     }
 }

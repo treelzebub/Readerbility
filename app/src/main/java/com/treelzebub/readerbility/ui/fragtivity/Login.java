@@ -2,11 +2,14 @@ package com.treelzebub.readerbility.ui.fragtivity;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,28 +35,28 @@ import butterknife.InjectView;
  */
 public class Login {
 
-    public class LoginActivity extends FragmentActivity {
+    public static class LoginActivity extends ActionBarActivity {
 
-        @InjectView(R.id.progress_bar)
-        ProgressBar progressBar;
+        @InjectView(R.id.progress_bar) ProgressBar progressBar;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+            setContentView(R.layout.login_dialog);
             ButterKnife.inject(this);
 
         }
 
         @Override
         public void finish() {
-            super.finish();
             AuthUtils.invalidateToken();
+            super.finish();
         }
 
         @Override
         protected void onDestroy() {
-            super.onDestroy();
             AccountManagerAuth.getAccountMan().invalidateAuthToken(Constants.ACCOUNT_TYPE, AccountManagerAuth.getToken());
+            super.onDestroy();
         }
     }
 
@@ -69,14 +72,11 @@ public class Login {
         public LoginFragment() {
         }
 
-        private Activity mActivity;
+        private Context mActivity;
 
-        @InjectView(R.id.username_edit)
-        EditText usernameEdit;
-        @InjectView(R.id.pwd_edit)
-        EditText pwdEdit;
-        @InjectView(R.id.submit_button)
-        Button submitBtn;
+        @InjectView(R.id.username_edit) EditText usernameEdit;
+        @InjectView(R.id.pwd_edit) EditText pwdEdit;
+        @InjectView(R.id.submit_button) Button submitBtn;
 
         //Lifecycle
         @Override
@@ -92,7 +92,7 @@ public class Login {
                     if (resultCode == Activity.RESULT_CANCELED) {
                         Toast.makeText(mActivity, "Google Play Services must be installed.",
                                 Toast.LENGTH_LONG).show();
-                        mActivity.finish();
+                        getActivity().finish();
                     } else if (resultCode == Activity.RESULT_OK) {
                         mEmail = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
                     }
@@ -150,7 +150,7 @@ public class Login {
         }
 
         private void showErrorDialog(int code) {
-            GooglePlayServicesUtil.getErrorDialog(code, mActivity, REQUEST_CODE_RECOVER_PLAY_SERVICES).show();
+            GooglePlayServicesUtil.getErrorDialog(code, getActivity(), REQUEST_CODE_RECOVER_PLAY_SERVICES).show();
         }
 
         private void showAccountPicker() {

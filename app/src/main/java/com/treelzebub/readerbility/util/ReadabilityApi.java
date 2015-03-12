@@ -48,7 +48,7 @@ public class ReadabilityApi {
 
     public static RestAdapter getRestAdapter() {
         if (mRestAdapter == null) {
-            RestAdapter.Builder builder = new Builder()
+            Builder builder = new Builder()
                     .setEndpoint(Constants.BASE_URL)
                     .setLogLevel(Constants.LOG_LEVEL)
                     .setConverter(new GsonConverter(getGson()))

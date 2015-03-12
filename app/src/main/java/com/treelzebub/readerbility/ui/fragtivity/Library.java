@@ -25,7 +25,7 @@ import butterknife.InjectView;
  * Created by Tre Murillo on 2/27/15.
  */
 public class Library {
-    private static List<Article> mLibrary;
+    public static List<Article> mLibrary;
 
     public static class LibraryFragment extends ListFragment {
         public static final String TAG = "libraryFragment";
@@ -49,7 +49,7 @@ public class Library {
         }
 
 // *****
-        private class LibraryAdapter extends BaseAdapter {
+        private static class LibraryAdapter extends BaseAdapter {
 
             LayoutInflater mInflater;
 
