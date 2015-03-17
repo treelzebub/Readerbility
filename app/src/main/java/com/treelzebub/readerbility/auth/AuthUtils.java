@@ -13,7 +13,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 
 import com.google.android.gms.auth.GoogleAuthUtil;
-import com.treelzebub.readerbility.util.Constants;
 
 /**
  * Created by Tre Murillo on 3/3/15.

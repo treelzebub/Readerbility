@@ -13,7 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.treelzebub.readerbility.R;
-import com.treelzebub.readerbility.thing.Article;
+import com.treelzebub.readerbility.api.model.Article;
 
 import java.util.ArrayList;
 import java.util.List;

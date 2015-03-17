@@ -17,7 +17,10 @@ import android.view.ViewGroup;
 import com.treelzebub.readerbility.NavigationDrawerFragment;
 import com.treelzebub.readerbility.NavigationDrawerFragment.NavigationDrawerCallbacks;
 import com.treelzebub.readerbility.R;
-import com.treelzebub.readerbility.ui.fragtivity.Welcome.WelcomeFragment;
+import com.treelzebub.readerbility.api.ReadabilityApi;
+import com.treelzebub.readerbility.api.Scopes;
+
+import retrofit.RestAdapter;
 
 
 public class MainActivity extends ActionBarActivity
@@ -32,6 +35,12 @@ public class MainActivity extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(Scopes.BASE_URL)
+                .build();
+
+        ReadabilityApi api = restAdapter.create(ReadabilityApi.class);
 
         FragmentManager fm = getSupportFragmentManager();
         mNavigationDrawerFragment = (NavigationDrawerFragment)

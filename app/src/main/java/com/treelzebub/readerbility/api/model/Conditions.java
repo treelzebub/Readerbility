@@ -1,4 +1,4 @@
-package com.treelzebub.readerbility.thing;
+package com.treelzebub.readerbility.api.model;
 
 /**
  * Created by Tre Murillo on 2/28/15.
