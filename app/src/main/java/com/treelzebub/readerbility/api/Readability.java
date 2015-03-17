@@ -1,5 +1,6 @@
 package com.treelzebub.readerbility.api;
 
+import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient;
 import com.treelzebub.readerbility.api.model.Bookmark;
 
