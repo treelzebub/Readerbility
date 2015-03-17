@@ -1,5 +1,10 @@
 apply plugin: 'com.android.application'
 
+    ext.sdk_version     = 22
+    ext.kotlin_version  = "0.10.770"
+    ext.build_tools     = "22.0.0"
+    ext.gradle_plugin   = "1.1.2"
+
 android {
     compileSdkVersion 22
     buildToolsVersion "22.0.0"
@@ -18,8 +23,6 @@ android {
         }
     }
 }
-
-def $build-ver = '22.0.0'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -43,6 +46,5 @@ dependencies {
     //compile 'joda-time:joda-time:2.+'
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'com.google.android.gms:play-services:6.5.+'
-
 
 }
