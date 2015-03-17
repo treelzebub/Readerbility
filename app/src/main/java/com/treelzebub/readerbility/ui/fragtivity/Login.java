@@ -26,7 +26,6 @@ import com.google.android.gms.common.AccountPicker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.treelzebub.readerbility.R;
-import com.treelzebub.readerbility.api.Scopes;
 import com.treelzebub.readerbility.auth.AuthUtils;
 import com.treelzebub.readerbility.auth.AuthUtils.AccountManagerAuth;
 import com.treelzebub.readerbility.auth.Constants;
@@ -170,7 +169,7 @@ public class Login {
             if (v.getTag().equals("submit")) {
                 Intent i = new Intent(
                         Intent.ACTION_VIEW,
-                        Uri.parse(Scopes.AUTHORIZATION_BASE_URL + "/login" + ".......")
+                        Uri.parse(Constants.AUTHORIZATION_BASE_URL + "/login" + ".......")
                 );
             }
         }

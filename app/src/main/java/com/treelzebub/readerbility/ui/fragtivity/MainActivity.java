@@ -18,7 +18,7 @@ import com.treelzebub.readerbility.NavigationDrawerFragment;
 import com.treelzebub.readerbility.NavigationDrawerFragment.NavigationDrawerCallbacks;
 import com.treelzebub.readerbility.R;
 import com.treelzebub.readerbility.api.ReadabilityApi;
-import com.treelzebub.readerbility.api.Scopes;
+import com.treelzebub.readerbility.auth.Constants;
 
 import retrofit.RestAdapter;
 
@@ -37,7 +37,7 @@ public class MainActivity extends ActionBarActivity
         setContentView(R.layout.activity_main);
 
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(Scopes.BASE_URL)
+                .setEndpoint(Constants.BASE_URL)
                 .build();
 
         ReadabilityApi api = restAdapter.create(ReadabilityApi.class);

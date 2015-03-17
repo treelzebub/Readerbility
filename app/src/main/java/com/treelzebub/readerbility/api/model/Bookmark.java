@@ -1,13 +1,28 @@
 package com.treelzebub.readerbility.api.model;
 
+import org.joda.time.DateTime;
+
 /**
  * Created by Tre Murillo on 2/27/15.
  */
 public class Bookmark {
-    public int user_id;
-    public float read_percent;
-    public String id, article_href;
-    public Article article;
-//    public DateTime date_archived, date_opened, date_added, date_favorited, date_updated;
-    public boolean favorite, archive;
+    int userId;
+    float readPercent;
+    DateTime dateUpdated;
+    boolean isFavorite;
+    Article article;
+
+    int id;
+    DateTime dateArchived, dateOpened, dateAdded;
+    String archiveHref;
+    DateTime dateFavorited;
+    boolean isArchived;
+    Tags tags;
+
+    String[] acceptedFilters = new String[]{
+            "archive", "favorite", "domain", "added_since",
+            "added_until", "opened_since", "opened_until", "archived_since",
+            "archived_until", "updated_since", "updated_until", "page", "per_page",
+            "only_deleted", "tags"
+    };
 }
