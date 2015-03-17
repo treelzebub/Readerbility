@@ -4,6 +4,7 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,10 +21,12 @@ import android.widget.Toast;
 import com.google.android.gms.common.AccountPicker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.api.client.auth.oauth2.AuthorizationCodeTokenRequest;
 import com.treelzebub.readerbility.R;
+import com.treelzebub.readerbility.api.Scopes;
 import com.treelzebub.readerbility.auth.AuthUtils;
 import com.treelzebub.readerbility.auth.AuthUtils.AccountManagerAuth;
-import com.treelzebub.readerbility.util.Constants;
+import com.treelzebub.readerbility.auth.Constants;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -35,7 +38,8 @@ public class Login {
 
     public static class LoginActivity extends ActionBarActivity {
 
-        @InjectView(R.id.progress_bar) ProgressBar progressBar;
+        @InjectView(R.id.progress_bar)
+        ProgressBar progressBar;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -72,9 +76,12 @@ public class Login {
 
         private Context mActivity;
 
-        @InjectView(R.id.username_edit) EditText usernameEdit;
-        @InjectView(R.id.pwd_edit) EditText passEdit;
-        @InjectView(R.id.submit_button) Button submitBtn;
+        @InjectView(R.id.username_edit)
+        EditText usernameEdit;
+        @InjectView(R.id.pwd_edit)
+        EditText passEdit;
+        @InjectView(R.id.submit_button)
+        Button submitBtn;
 
         //Lifecycle
         @Override
@@ -125,8 +132,15 @@ public class Login {
             //TODO validated ? start Library : refresh(this)
             String username = usernameEdit.getText().toString();
             String pass = passEdit.getText().toString();
-            if (v.getTag().equals("submit") && isValidated(username, pass)) {
 
+            if (v.getTag().equals("submit")) {
+                Intent i = new Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse(Scopes.AUTHORIZATION_BASE_URL + "/login" +
+                        "?client_id" + Constants.CONSUMER_KEY)
+                );
+                AuthorizationCodeTokenRequest request = new AuthorizationCodeTokenRequest();
+                //TODO bookmark
             }
         }
 

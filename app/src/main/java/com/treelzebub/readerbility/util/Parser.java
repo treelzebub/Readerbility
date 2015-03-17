@@ -1,6 +1,6 @@
 package com.treelzebub.readerbility.util;
 
-import com.treelzebub.readerbility.thing.Bookmark;
+import com.treelzebub.readerbility.api.model.Bookmark;
 
 import java.util.List;
 
