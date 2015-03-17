@@ -9,7 +9,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -21,12 +25,18 @@ import android.widget.Toast;
 import com.google.android.gms.common.AccountPicker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.api.client.auth.oauth2.AuthorizationCodeTokenRequest;
 import com.treelzebub.readerbility.R;
 import com.treelzebub.readerbility.api.Scopes;
 import com.treelzebub.readerbility.auth.AuthUtils;
 import com.treelzebub.readerbility.auth.AuthUtils.AccountManagerAuth;
 import com.treelzebub.readerbility.auth.Constants;
+import com.treelzebub.readerbility.auth.GoogleAccountsService;
+import com.treelzebub.readerbility.util.ServiceGenerator;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -36,7 +46,9 @@ import butterknife.InjectView;
  */
 public class Login {
 
-    public static class LoginActivity extends ActionBarActivity {
+    public static boolean purgeAllTokens = false; //TODO sharedprefs & purge button in settings
+
+    public class LoginActivity extends ActionBarActivity {
 
         @InjectView(R.id.progress_bar)
         ProgressBar progressBar;
@@ -50,8 +62,15 @@ public class Login {
         }
 
         @Override
+        public boolean onCreateOptionsMenu(Menu menu) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.login, menu);
+            return true;
+        }
+
+        @Override
         public void finish() {
-            AuthUtils.invalidateToken();
+            AuthUtils.invalidateToken(purgeAllTokens);
             super.finish();
         }
 
@@ -62,12 +81,21 @@ public class Login {
         }
     }
 
+
     public static class LoginFragment extends Fragment implements OnClickListener {
         public static final String TAG = "loginFragment";
 
         //Intent
         static final int REQUEST_CODE_PICK_ACCOUNT = 1000;
         static final int REQUEST_CODE_RECOVER_PLAY_SERVICES = 1001;
+
+        private static final String PROPERTIES_FILE_NAME = "local.properties";
+        private final String[] MANDATORY_PROPERTIES = {"client_id", "client_secret"};
+
+        GoogleAccountsService mAccountsService;
+
+        //TODO move
+        private String username, password;
 
         private String mEmail;
 
@@ -82,6 +110,7 @@ public class Login {
         EditText passEdit;
         @InjectView(R.id.submit_button)
         Button submitBtn;
+
 
         //Lifecycle
         @Override
@@ -110,8 +139,14 @@ public class Login {
         public void onResume() {
             super.onResume();
             if (checkPlayServices()) {
-                //TODO stuff
+                mAccountsService = ServiceGenerator.createService(GoogleAccountsService.class, GoogleAccountsService.BASE_URL);
             }
+        }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setHasOptionsMenu(true);
         }
 
         @Override
@@ -120,13 +155,12 @@ public class Login {
             View v = inflater.inflate(R.layout.fragment_login, container, false);
             ButterKnife.inject(this, v);
 
+            submitBtn.setTag("submit");
             submitBtn.setOnClickListener(this);
 
             return v;
         }
 
-
-        //Interface
         @Override
         public void onClick(View v) {
             //TODO validated ? start Library : refresh(this)
@@ -136,21 +170,55 @@ public class Login {
             if (v.getTag().equals("submit")) {
                 Intent i = new Intent(
                         Intent.ACTION_VIEW,
-                        Uri.parse(Scopes.AUTHORIZATION_BASE_URL + "/login" +
-                        "?client_id" + Constants.CONSUMER_KEY)
+                        Uri.parse(Scopes.AUTHORIZATION_BASE_URL + "/login" + ".......")
                 );
-                AuthorizationCodeTokenRequest request = new AuthorizationCodeTokenRequest();
-                //TODO bookmark
             }
         }
 
-        private boolean isValidated(String username, String pass) {
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.load_properties:
+                    loadPropertiesFile(PROPERTIES_FILE_NAME);
+                    return false;
+                case R.id.action_settings:
+//                    Intent i = new Intent(this, Settings.SettingsActivity.class);
+                    return true;
+                default:
+                    break;
+            }
 
-
-            return false;
+            return false; //because fragment.
         }
 
         //
+        private Properties loadPropertiesFile(String filename) {
+            Properties properties = null;
+
+            try {
+                properties = new Properties();
+                properties.load(new FileInputStream(filename));
+            } catch (IOException e) {
+                String message = (e instanceof FileNotFoundException) ? "File Not Found." : "Disk Read Error.";
+
+                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                Log.e(message, e.getMessage());
+            }
+
+            boolean success = true;
+
+            for (String key : MANDATORY_PROPERTIES) {
+                String value = properties.getProperty(key);
+
+                if (value == null || value.trim().isEmpty()) {
+                    success = false;
+                    Toast.makeText(getActivity(), "Property missing: " + key, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            return success ? properties : null;
+        }
+
         private boolean checkPlayServices() {
             int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity);
 
@@ -159,7 +227,7 @@ public class Login {
                     showErrorDialog(status);
                 } else {
                     Toast.makeText(getActivity(), "This device is not supported.", Toast.LENGTH_LONG).show();
-                    getActivity().finish(); //TODO handle this properly
+                    getActivity().finish();  //TODO do more betterer
                 }
                 return false;
             }

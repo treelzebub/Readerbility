@@ -28,4 +28,6 @@ public interface ReadabilityApi {
     @GET("/bookmarks/{bookmark_id}/tags")
     String[] getBookmarkTags(@Path("bookmark_id") String bookmark_id);
 
+
+
 }

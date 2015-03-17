@@ -15,6 +15,10 @@ public class ServiceGenerator {
     private ServiceGenerator() {
     }
 
+    public static <S> S createService(Class<S> serviceClass, String baseUrl) {
+        return createService(serviceClass, baseUrl, null);
+    }
+
     public static <S> S createService(Class<S> serviceClass, String baseUrl, final AccessToken accessToken) {
         RestAdapter.Builder builder = new RestAdapter.Builder()
                 .setEndpoint(baseUrl)
