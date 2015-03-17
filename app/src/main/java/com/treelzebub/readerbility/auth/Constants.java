@@ -8,6 +8,9 @@ import retrofit.RestAdapter.LogLevel;
 public class Constants {
 //    https://www.readability.com/api/rest/v1/oauth/authorize
 
+    public static final String TAG = "OAuthSamples";
+
+    protected static final String CREDENTIALS_STORE_PREF_FILE = "oauth";
 
     public static final String CONSUMER_KEY = "treelzebub";
     public static final String CONSUMER_SECRET = "qMnTRpLAntrDC3f3xJyeHR6WwUWmCXYU";
@@ -22,9 +25,12 @@ public class Constants {
     public static final String AUTHORIZATION_BASE_URL = BASE_URL + "/oauth/authorize";
     public static final String REQUEST_TOKEN_URL = BASE_URL + "/oauth/request_token";
     public static final String ACCESS_TOKEN_URL = BASE_URL + "/oauth/access_token";
+    public static final String REDIRECT_URL = "http://localhost/Callback";
 
     public static final String BOOKMARK_CONTENT_TYPE = "application/x-www-form-urlencoded";
 
     public static final long EMPTY_LONG = 0L;
 
+    private Constants(){
+    }
 }
