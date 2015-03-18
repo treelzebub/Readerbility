@@ -12,11 +12,37 @@ import android.preference.PreferenceManager;
 import com.google.android.gms.auth.GoogleAuthUtil;
 
 /**
- * Created by Tre Murillo on 3/3/15.
+ * Created by Tre Murillo on 3/3/15
  */
 public class AuthUtils {
 
-    public static class XAuthenticator {
+    public static String getXAuthUrl(String username, String password) {
+        StringBuilder urlBuilder = new StringBuilder();
+
+        urlBuilder
+                .append("&oauth_consumer_key=").append(Constants.CONSUMER_KEY)
+                .append("&oauth_consumer_secret=").append(Constants.CONSUMER_SECRET)
+                .append("&oauth_nonce=").append(getNonce())
+                .append("&oauth_version=1.0")
+                .append("&oauth_timestamp=").append(getTimestamp())
+                .append("&oauth_signature_method=HMAC-SHA1")
+                .append("&oauth_signature=").append(getOauthSignature())
+                .append("&x_auth_mode=client_auth")
+                .append("&x_auth_username=").append(username)
+                .append("&x_auth_password=").append(password);
+
+
+//        oauth_consumer_key - JvyS7DO2qd6NNTsXJ4E7zA
+//        oauth_consumer_secret - 9z6157pUbOBqtbm0A0q4r29Y2EYzIHlUwbF4Cl9c
+//        oauth_nonce - 6AN2dKRzxyGhmIXUKSmp1JcB4pckM8rD3frKMTmVAo
+//        oauth_version - 1.0
+//        oauth_timestamp - 1284565601
+//        oauth_signature_method - HMAC-SHA1
+//        x_auth_mode - client_auth
+//        x_auth_username - oauth_test_exec
+//        x_auth_password - twitter-xauth
+
+        return urlBuilder.toString();
     }
 
     private static class AccountManagerUtils {
