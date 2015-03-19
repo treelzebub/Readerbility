@@ -13,7 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.treelzebub.readerbility.R;
-import com.treelzebub.readerbility.api.model.Article;
+import com.treelzebub.readerbility.api.model.Bookmark;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +22,10 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
- * Created by Tre Murillo on 2/27/15.
+ * Created by Tre Murillo on 2/27/15
  */
 public class Library {
-    public static List<Article> mLibrary;
+    public static List<Bookmark> mLibrary;
 
     public static class LibraryFragment extends ListFragment {
         public static final String TAG = "libraryFragment";
@@ -48,26 +48,13 @@ public class Library {
             return v;
         }
 
-// *****
         private static class LibraryAdapter extends BaseAdapter {
 
             LayoutInflater mInflater;
 
             LibraryAdapter(Context c) {
-                mLibrary = new ArrayList<Article>();
+                mLibrary = new ArrayList<>();
                 mInflater = LayoutInflater.from(c);
-
-                //TODO temp
-                mLibrary.add(new Article("Jazz", "http://www.asdf.com"));
-                mLibrary.add(new Article("Programming", "http://www.asdf.com"));
-                mLibrary.add(new Article("Film", "http://www.asdf.com"));
-                mLibrary.add(new Article("Laptop Lapburn", "http://www.asdf.com"));
-                mLibrary.add(new Article("Probable Testicularly Cancerous Future", "http://www.asdf.com"));
-                mLibrary.add(new Article("Payments", "http://www.asdf.com"));
-                mLibrary.add(new Article("RIP Leonard Nemoy", "http://www.asdf.com"));
-                mLibrary.add(new Article("Article", "http://www.asdf.com"));
-                mLibrary.add(new Article("Another Article", "http://www.asdf.com"));
-                ////            }
             }
 
             @Override
@@ -76,7 +63,7 @@ public class Library {
             }
 
             @Override
-            public Article getItem(int i) {
+            public Bookmark getItem(int i) {
                 return mLibrary.get(i);
             }
 
@@ -103,10 +90,10 @@ public class Library {
                     holder = (ViewHolder) v.getTag();
                 }
 
-                Article bookmark = mLibrary.get(i);
+                Bookmark bookmark = mLibrary.get(i);
 
-                holder.dateTV.setText(bookmark.url);
-                holder.titleTV.setText(bookmark.title);
+                holder.dateTV.setText(bookmark.getDateAdded().toString());
+                holder.titleTV.setText(bookmark.getArticle().getTitle());
 
                 return v;
             }

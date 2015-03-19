@@ -1,7 +1,5 @@
 package com.treelzebub.readerbility.auth;
 
-import com.treelzebub.readerbility.Constants;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.security.NoSuchAlgorithmException;
