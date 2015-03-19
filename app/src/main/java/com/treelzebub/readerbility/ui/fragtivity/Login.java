@@ -35,6 +35,7 @@ import butterknife.InjectView;
 public class Login {
 
     public static class LoginActivity extends ActionBarActivity {
+        public static final String TAG = "LoginActivity";
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -63,19 +64,8 @@ public class Login {
 
 
     public static class LoginFragment extends Fragment implements OnClickListener {
-        public static final String TAG = "loginFragment";
+        public static final String TAG = "LoginFragment";
 
-        //Intent
-        static final int REQUEST_CODE_PICK_ACCOUNT = 1000;
-        static final int REQUEST_CODE_RECOVER_PLAY_SERVICES = 1001;
-
-        private static final String PROPERTIES_FILE_NAME = "local.properties";
-        private final String[] MANDATORY_PROPERTIES = {"client_id", "client_secret"};
-
-        //TODO move
-        private String username, password;
-
-        private String mEmail;
 
         public LoginFragment() {
         }
@@ -115,7 +105,6 @@ public class Login {
             View v = inflater.inflate(R.layout.fragment_login, container, false);
             ButterKnife.inject(this, v);
 
-            mSubmitButton.setTag("submit");
             mSubmitButton.setOnClickListener(this);
 
             return v;
@@ -138,9 +127,6 @@ public class Login {
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.load_properties:
-                    loadPropertiesFile(PROPERTIES_FILE_NAME);
-                    return false;
                 case R.id.action_settings:
 //                    Intent i = new Intent(this, Settings.SettingsActivity.class);
                     return true;
@@ -151,33 +137,6 @@ public class Login {
             return false; //because fragment.
         }
 
-        //
-        private Properties loadPropertiesFile(String filename) {
-            Properties properties = null;
-
-            try {
-                properties = new Properties();
-                properties.load(new FileInputStream(filename));
-            } catch (IOException e) {
-                String message = (e instanceof FileNotFoundException) ? "File Not Found." : "Disk Read Error.";
-
-                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-                Log.e(message, e.getMessage());
-            }
-
-            boolean success = true;
-
-            for (String key : MANDATORY_PROPERTIES) {
-                String value = properties.getProperty(key);
-
-                if (value == null || value.trim().isEmpty()) {
-                    success = false;
-                    Toast.makeText(getActivity(), "Property missing: " + key, Toast.LENGTH_LONG).show();
-                }
-            }
-
-            return success ? properties : null;
-        }
 
     }
 }
