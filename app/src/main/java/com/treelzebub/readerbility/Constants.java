@@ -6,7 +6,6 @@ import retrofit.RestAdapter.LogLevel;
  * Created by Tre Murillo on 2/27/15
  */
 public class Constants {
-//    https://www.readability.com/api/rest/v1/oauth/authorize
 
     public static final String TAG = "OAuthSamples";
 

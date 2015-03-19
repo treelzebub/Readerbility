@@ -95,6 +95,6 @@ public class AuthenticateWithOAuthTask extends
     protected void onPostExecute(AuthenticationResult authenticationResult) {
         super.onPostExecute(authenticationResult);
 
-        Toast.makeText(mContext, authenticationResult.toString(), Toast.LENGTH_LONG).show();
+        Toast.makeText(mContext, AccessToken.getInstance().getToken(), Toast.LENGTH_LONG).show();
     }
 }
