@@ -89,9 +89,13 @@
     <orderEntry type="library" exported="" name="signpost-jetty6-1.2.1.2" level="project" />
     <orderEntry type="library" exported="" name="play-services-6.5.87" level="project" />
     <orderEntry type="library" exported="" name="okio-1.2.0" level="project" />
+<<<<<<< Updated upstream
     <orderEntry type="library" exported="" name="signpost-core-1.2.1.2" level="project" />
+=======
+>>>>>>> Stashed changes
     <orderEntry type="library" exported="" name="jetty-client-6.1.18" level="project" />
     <orderEntry type="library" exported="" name="google-oauth-client-1.18.0-rc" level="project" />
+    <orderEntry type="library" exported="" name="signpost-core-1.2.1.2" level="project" />
     <orderEntry type="library" exported="" name="jetty-sslengine-6.1.18" level="project" />
     <orderEntry type="library" exported="" name="jetty-6.1.18" level="project" />
     <orderEntry type="library" exported="" name="jetty-util5-6.1.18" level="project" />
@@ -110,8 +114,8 @@
     <orderEntry type="library" exported="" name="butterknife-6.1.0" level="project" />
     <orderEntry type="library" exported="" name="servlet-api-2.5-20081211" level="project" />
     <orderEntry type="library" exported="" name="cardview-v7-22.0.0" level="project" />
-    <orderEntry type="library" exported="" name="gson-2.3.1" level="project" />
     <orderEntry type="library" exported="" name="slf4j-android-1.7.10" level="project" />
+    <orderEntry type="library" exported="" name="gson-2.3.1" level="project" />
     <orderEntry type="library" exported="" name="google-api-client-1.18.0-rc" level="project" />
     <orderEntry type="library" exported="" name="slf4j-api-1.7.10" level="project" />
   </component>
