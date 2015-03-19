@@ -1,36 +1,37 @@
 package com.treelzebub.readerbility.util;
 
-import com.squareup.okhttp.OkHttpClient;
-import com.treelzebub.readerbility.auth.AccessToken;
+import com.treelzebub.readerbility.Constants;
+import com.treelzebub.readerbility.auth.SignpostClient;
 
+import oauth.signpost.OAuthConsumer;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
-import retrofit.client.OkClient;
 
 /**
- * Created by Tre Murillo on 3/16/15.
+ * Created by Tre Murillo on 3/16/15
  */
 public class ServiceGenerator {
 
     private ServiceGenerator() {
     }
 
-    public static <S> S createService(Class<S> serviceClass, String baseUrl) {
-        return createService(serviceClass, baseUrl, null);
+    public static <S> S createService(Class<S> serviceClass, OAuthConsumer consumer, String baseUrl) {
+        return createService(serviceClass, consumer, baseUrl, null);
     }
 
-    public static <S> S createService(Class<S> serviceClass, String baseUrl, final AccessToken accessToken) {
+    public static <S> S createService(Class<S> serviceClass, OAuthConsumer consumer,
+                                      String baseUrl, final String accessToken) {
         RestAdapter.Builder builder = new RestAdapter.Builder()
                 .setEndpoint(baseUrl)
-                .setClient(new OkClient(new OkHttpClient()));
+                .setClient(new SignpostClient(consumer));
 
         if (accessToken != null) {
             builder.setRequestInterceptor(new RequestInterceptor() {
                 @Override
                 public void intercept(RequestFacade request) {
                     request.addHeader("Accept", "application/json");
-                    request.addHeader("Authorization", accessToken.getTokenType() +
-                            " " + accessToken.getAccessToken());
+                    request.addHeader("X-Auth-Token", accessToken);
+                    request.addHeader("User-Agent", Constants.USER_AGENT);
                 }
             });
         }

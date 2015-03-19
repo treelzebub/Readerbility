@@ -14,11 +14,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.treelzebub.readerbility.Constants;
 import com.treelzebub.readerbility.NavigationDrawerFragment;
 import com.treelzebub.readerbility.NavigationDrawerFragment.NavigationDrawerCallbacks;
 import com.treelzebub.readerbility.R;
 import com.treelzebub.readerbility.api.ReadabilityApi;
-import com.treelzebub.readerbility.auth.Constants;
 
 import retrofit.RestAdapter;
 

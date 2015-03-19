@@ -4,7 +4,6 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,15 +21,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.android.gms.common.AccountPicker;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.treelzebub.readerbility.R;
-import com.treelzebub.readerbility.auth.AuthUtils;
-import com.treelzebub.readerbility.auth.AuthUtils.AccountManagerAuth;
-import com.treelzebub.readerbility.auth.Constants;
-import com.treelzebub.readerbility.auth.GoogleAccountsService;
-import com.treelzebub.readerbility.util.ServiceGenerator;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -41,7 +32,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
- * Created by Tre Murillo on 2/27/15.
+ * Created by Tre Murillo on 2/27/15
  */
 public class Login {
 
@@ -69,13 +60,11 @@ public class Login {
 
         @Override
         public void finish() {
-            AuthUtils.invalidateToken(purgeAllTokens);
             super.finish();
         }
 
         @Override
         protected void onDestroy() {
-            AccountManagerAuth.getAccountMan().invalidateAuthToken(Constants.ACCOUNT_TYPE, AccountManagerAuth.getToken());
             super.onDestroy();
         }
     }
@@ -90,8 +79,6 @@ public class Login {
 
         private static final String PROPERTIES_FILE_NAME = "local.properties";
         private final String[] MANDATORY_PROPERTIES = {"client_id", "client_secret"};
-
-        GoogleAccountsService mAccountsService;
 
         //TODO move
         private String username, password;
@@ -137,9 +124,6 @@ public class Login {
         @Override
         public void onResume() {
             super.onResume();
-            if (checkPlayServices()) {
-                mAccountsService = ServiceGenerator.createService(GoogleAccountsService.class, GoogleAccountsService.BASE_URL);
-            }
         }
 
         @Override
@@ -167,10 +151,12 @@ public class Login {
             String pass = passEdit.getText().toString();
 
             if (v.getTag().equals("submit")) {
-                Intent i = new Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse(Constants.AUTHORIZATION_BASE_URL + "/login" + ".......")
-                );
+
+
+//                Intent i = new Intent(
+//                        Intent.ACTION_VIEW,
+//                        Uri.parse(Readability.getLoginUrl())
+//                );
             }
         }
 
@@ -218,38 +204,5 @@ public class Login {
             return success ? properties : null;
         }
 
-        private boolean checkPlayServices() {
-            int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity);
-
-            if (status != ConnectionResult.SUCCESS) {
-                if (GooglePlayServicesUtil.isUserRecoverableError(status)) {
-                    showErrorDialog(status);
-                } else {
-                    Toast.makeText(getActivity(), "This device is not supported.", Toast.LENGTH_LONG).show();
-                    getActivity().finish();  //TODO do more betterer
-                }
-                return false;
-            }
-            return true;
-        }
-
-        private void checkUserAccount() {
-            String accountName = AuthUtils.getAccountName(mActivity);
-            if (accountName == null) showAccountPicker();
-        }
-
-        private void showErrorDialog(int code) {
-            GooglePlayServicesUtil.getErrorDialog(code, getActivity(), REQUEST_CODE_RECOVER_PLAY_SERVICES).show();
-        }
-
-        private void showAccountPicker() {
-            String[] accountTypes = new String[]{"com.google"};
-            Intent intent = AccountPicker.newChooseAccountIntent(null, null,
-                    accountTypes, false, null, null, null, null);
-            startActivityForResult(intent, REQUEST_CODE_PICK_ACCOUNT);
-        }
-
-
     }
-
 }
