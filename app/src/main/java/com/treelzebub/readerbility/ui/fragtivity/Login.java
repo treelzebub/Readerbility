@@ -1,9 +1,6 @@
 package com.treelzebub.readerbility.ui.fragtivity;
 
-import android.accounts.AccountManager;
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -37,7 +34,7 @@ import butterknife.InjectView;
  */
 public class Login {
 
-    public class LoginActivity extends ActionBarActivity {
+    public static class LoginActivity extends ActionBarActivity {
 
         @InjectView(R.id.progress_bar)
         ProgressBar progressBar;
@@ -105,22 +102,6 @@ public class Login {
         }
 
         @Override
-        public void onActivityResult(int requestCode, int resultCode, Intent data) {
-            switch (requestCode) {
-                case REQUEST_CODE_PICK_ACCOUNT:
-                    if (resultCode == Activity.RESULT_CANCELED) {
-                        Toast.makeText(mActivity, "Google Play Services must be installed.",
-                                Toast.LENGTH_LONG).show();
-                        getActivity().finish();
-                    } else if (resultCode == Activity.RESULT_OK) {
-                        mEmail = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-                    }
-                    return;
-            }
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-
-        @Override
         public void onResume() {
             super.onResume();
         }
@@ -151,6 +132,7 @@ public class Login {
 
             if (v.getTag().equals("submit")) {
                 new AuthenticateWithOAuthTask(getActivity(), username, password).execute();
+
 
             }
         }
