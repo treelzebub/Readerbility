@@ -25,6 +25,7 @@ public class MessageSigner {
 
     private Random random = new Random(System.nanoTime());
     private PercentEscaper escaper = new PercentEscaper("-._~", false);
+
     private final String consumerKey, consumerSecret;
     private String token, tokenSecret;
 

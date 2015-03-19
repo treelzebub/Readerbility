@@ -21,8 +21,6 @@ public class Constants {
     public static final LogLevel LOG_LEVEL = LogLevel.BASIC;
 
     public static final String BASE_URL = "https://www.readability.com/api/rest/v1";
-    public static final String AUTHORIZATION_BASE_URL = BASE_URL + "/oauth/authorize";
-    public static final String REQUEST_TOKEN_URL = BASE_URL + "/oauth/request_token";
     public static final String ACCESS_TOKEN_URL = BASE_URL + "/oauth/access_token";
     public static final String REDIRECT_URL = "http://localhost/Callback";
 
@@ -33,16 +31,4 @@ public class Constants {
     private Constants(){
     }
 
-    /**TEMP-ZONE**/
-
-
-//    curl -d \
-//            "oauth_signature_method=PLAINTEXT\
-//            &oauth_nonce=testnonce\
-//            &oauth_timestamp=$(date +%s)\
-//            &oauth_consumer_key=CONSUMER\
-//            &oauth_consumer_secret=SECRET\
-//            &x_auth_username=USERNAME\
-//            &x_auth_password=PASSWORD\
-//            &oauth_signature=SECRET%26" 'https://www.readability.com/api/rest/v1/oauth/access_token/'
 }

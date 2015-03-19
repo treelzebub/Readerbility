@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.treelzebub.readerbility.R;
+import com.treelzebub.readerbility.auth.AuthenticateWithOAuthTask;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -35,8 +36,6 @@ import butterknife.InjectView;
  * Created by Tre Murillo on 2/27/15
  */
 public class Login {
-
-    public static boolean purgeAllTokens = false; //TODO sharedprefs & purge button in settings
 
     public class LoginActivity extends ActionBarActivity {
 
@@ -146,17 +145,13 @@ public class Login {
 
         @Override
         public void onClick(View v) {
-            //TODO validated ? start Library : refresh(this)
-            String username = usernameEdit.getText().toString();
-            String pass = passEdit.getText().toString();
+            //TODO delete password immediately after auth
+            CharSequence username = usernameEdit.getText().toString();
+            CharSequence password = passEdit.getText().toString();
 
             if (v.getTag().equals("submit")) {
+                new AuthenticateWithOAuthTask(getActivity(), username, password).execute();
 
-
-//                Intent i = new Intent(
-//                        Intent.ACTION_VIEW,
-//                        Uri.parse(Readability.getLoginUrl())
-//                );
             }
         }
 

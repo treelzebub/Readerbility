@@ -58,13 +58,13 @@ public class SignpostClient extends UrlConnectionClient {
             connection.setDoOutput(true);
             length = body.length();
         }
-        RequestSigner.create(Constants.CONSUMER_KEY, Constants.CONSUMER_SECRET)
-                .setOAuthTokenAndSecret(getToken(request), getOAuthSecret(request))
-                .sign(request, connection);
+//        MessageSigner.create(Constants.CONSUMER_KEY, Constants.CONSUMER_SECRET)
+//                .setOAuthTokenAndSecret(getToken(request), getOAuthSecret(request))
+//                .sign(request, connection);
         if (length != -1) {
             connection.setFixedLengthStreamingMode((int) length);
         } else {
-            connection.setChunkedStreamingMode(CHUNK_SIZE);
+//            connection.setChunkedStreamingMode(CHUNK_SIZE);
         }
         if (body != null) {
             body.writeTo(connection.getOutputStream());

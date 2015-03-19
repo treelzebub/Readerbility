@@ -3,7 +3,7 @@
 <pre>
 Aggregator:
 1) login to Readability
-  a) directly [email + pwd]
+  a) directly [password + pwd]
   b) social login [facebook, twitter, google+]
 2) pull bookmarked Articles
   a) search
