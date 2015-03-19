@@ -55,12 +55,12 @@ public class AuthUtils {
 
         Base64 base64 = new Base64();
 
-        StringBuilder base = new StringBuilder();
-        base.append("GET&");
-        base.append(url);
-        base.append("&");
-        base.append(params);
-        
+        StringBuilder base = new StringBuilder()
+                .append("GET&")
+                .append(url)
+                .append("&")
+                .append(params);
+
         // append a "&" to the end of secret key.
         byte[] keyBytes = (Constants.CONSUMER_SECRET + "&").getBytes(Constants.ENCODING);
 
