@@ -28,4 +28,8 @@ public class AccessToken {
     public String getTokenSecret() {
         return tokenSecret;
     }
+
+    public boolean hasToken() {
+        return (!token.equals("") && !tokenSecret.equals(""));
+    }
 }

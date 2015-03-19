@@ -80,7 +80,7 @@ public class AuthenticateWithOAuthTask extends
         AccessToken.getInstance().setToken(token);
         AccessToken.getInstance().setTokenSecret(tokenSecret);
 
-        if (token == null | tokenSecret == null) return AuthenticationResult.INVALID_CREDENTIALS;
+        if (token.equals("") | tokenSecret.equals("")) return AuthenticationResult.INVALID_CREDENTIALS;
         else return AuthenticationResult.SUCCESS;
     }
 

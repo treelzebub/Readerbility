@@ -20,7 +20,10 @@
         android:id="@+id/loading_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign in to Play Services" />
+        android:paddingBottom="@dimen/abc_dropdownitem_text_padding_left"
+        android:textStyle="bold"
+        android:textSize="@dimen/abc_text_size_headline_material"
+        android:text="Readability Login" />
 
     <fragment
         android:name="com.treelzebub.readerbility.ui.fragtivity.Login$LoginFragment"
