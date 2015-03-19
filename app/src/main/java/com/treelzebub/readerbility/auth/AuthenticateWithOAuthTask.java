@@ -2,6 +2,7 @@ package com.treelzebub.readerbility.auth;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.squareup.okhttp.OkHttpClient;
@@ -10,6 +11,8 @@ import com.squareup.okhttp.Response;
 import com.treelzebub.readerbility.Constants;
 
 import java.io.IOException;
+import java.security.KeyException;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by Tre Murillo on 3/18/15
@@ -21,7 +24,7 @@ public class AuthenticateWithOAuthTask extends
         AsyncTask<Void, String, AuthenticateWithOAuthTask.AuthenticationResult> {
 
     public enum AuthenticationResult {
-        SUCCESS, INVALID_CREDENTIALS
+        SUCCESS, AUTH_ERROR, INVALID_CREDENTIALS
     }
 
     private final Context mContext;
@@ -58,13 +61,28 @@ public class AuthenticateWithOAuthTask extends
     private AuthenticationResult requestAccessTokenFromServer() throws IOException {
         final OkHttpClient client = new OkHttpClient();
 
-        // http://oauthbible.com/#oauth-10a-xauth
+        String nonce = AuthUtils.getNonce();
+        String timestamp = AuthUtils.getTimestamp();
+        String signature = "";
+        try {
+            signature = AuthUtils.getSignature(Constants.ACCESS_TOKEN_URL, Constants.CONSUMER_SECRET);
+        } catch (NoSuchAlgorithmException | KeyException e) {
+            //impossibru!
+        }
+
+        if (nonce == null || signature.equals("")) {
+            Toast.makeText(mContext, "AuthUtils Error.", Toast.LENGTH_LONG).show();
+            Log.e("AuthUtils Error", "nonce IS: " + nonce + "AND signature IS: " + signature);
+
+            return AuthenticationResult.AUTH_ERROR;
+        }
+
         Request request = new Request.Builder()
                 .url(Constants.ACCESS_TOKEN_URL)
-                .addHeader("oauth_signature", "")
+                .addHeader("oauth_signature", signature)
                 .addHeader("oauth_signature_method", "PLAINTEXT")
-                .addHeader("oauth_nonce", AuthUtils.getNonce())
-                .addHeader("oauth_timestamp", AuthUtils.getTimestamp())
+                .addHeader("oauth_nonce", nonce)
+                .addHeader("oauth_timestamp", timestamp)
                 .addHeader("oauth_consumer_key", Constants.CONSUMER_KEY)
                 .addHeader("oauth_consumer_secret", Constants.CONSUMER_SECRET)
                 .addHeader("oauth_callback", Constants.CALLBACK_URL)
@@ -74,18 +92,23 @@ public class AuthenticateWithOAuthTask extends
                 .build();
 
         Response response = client.newCall(request).execute();
+
+        if (response.message().equals("UNAUTHORIZED"))
+            return AuthenticationResult.INVALID_CREDENTIALS;
+
+
         String token = response.header("token");
         String tokenSecret = response.header("token_secret");
 
         AccessToken.getInstance().setToken(token);
         AccessToken.getInstance().setTokenSecret(tokenSecret);
 
-        if (token.equals("") | tokenSecret.equals("")) return AuthenticationResult.INVALID_CREDENTIALS;
-        else return AuthenticationResult.SUCCESS;
+        return AuthenticationResult.SUCCESS;
     }
 
     @Override
     protected void onProgressUpdate(String... values) {
+        super.onProgressUpdate(values);
         for (String value : values) {
             Toast.makeText(mContext, value, Toast.LENGTH_SHORT).show();
         }

@@ -61,7 +61,7 @@ public class AuthUtils {
                 .append("&")
                 .append(params);
 
-        // append a "&" to the end of secret key.
+        // append a "&" to the end of secret key. it's protocol, bitch.
         byte[] keyBytes = (Constants.CONSUMER_SECRET + "&").getBytes(Constants.ENCODING);
 
         SecretKey key = new SecretKeySpec(keyBytes, Constants.SIGNATURE_METHOD);

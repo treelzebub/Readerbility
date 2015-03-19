@@ -36,14 +36,10 @@ public class Login {
 
     public static class LoginActivity extends ActionBarActivity {
 
-        @InjectView(R.id.progress_bar)
-        ProgressBar progressBar;
-
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.login_dialog);
-            ButterKnife.inject(this);
 
         }
 
@@ -86,13 +82,14 @@ public class Login {
 
         private Context mActivity;
 
+        @InjectView(R.id.progress_bar)
+        ProgressBar mProgressBar;
         @InjectView(R.id.username_edit)
-        EditText usernameEdit;
+        EditText mUsernameEdit;
         @InjectView(R.id.pwd_edit)
-        EditText passEdit;
+        EditText mPasswordEdit;
         @InjectView(R.id.submit_button)
-        Button submitBtn;
-
+        Button mSubmitButton;
 
         //Lifecycle
         @Override
@@ -118,8 +115,8 @@ public class Login {
             View v = inflater.inflate(R.layout.fragment_login, container, false);
             ButterKnife.inject(this, v);
 
-            submitBtn.setTag("submit");
-            submitBtn.setOnClickListener(this);
+            mSubmitButton.setTag("submit");
+            mSubmitButton.setOnClickListener(this);
 
             return v;
         }
@@ -127,12 +124,13 @@ public class Login {
         @Override
         public void onClick(View v) {
             //TODO delete password immediately after auth
-            CharSequence username = usernameEdit.getText().toString();
-            CharSequence password = passEdit.getText().toString();
+            CharSequence username = mUsernameEdit.getText().toString();
+            CharSequence password = mPasswordEdit.getText().toString();
 
             if (v.getTag().equals("submit")) {
-                new AuthenticateWithOAuthTask(getActivity(), username, password).execute();
-
+                AuthenticateWithOAuthTask task = new AuthenticateWithOAuthTask(getActivity(), username, password);
+//                task.setProgressBar(mProgressBar);
+                task.execute();
 
             }
         }

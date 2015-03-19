@@ -28,4 +28,12 @@ public class Constants {
     private Constants(){
     }
 
+    /**
+     * LINKS
+     * // http://oauthbible.com/#oauth-10a-xauth
+     *
+     *
+     *
+     * **/
+
 }
