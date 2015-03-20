@@ -2,17 +2,21 @@ package com.treelzebub.readerbility.auth;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 import com.treelzebub.readerbility.Constants;
+import com.treelzebub.readerbility.api.ReadabilityApi;
 
 import java.io.IOException;
 import java.security.KeyException;
 import java.security.NoSuchAlgorithmException;
+
+import retrofit.RequestInterceptor;
+import retrofit.RestAdapter;
+import retrofit.client.OkClient;
 
 /**
  * Created by Tre Murillo on 3/18/15
@@ -21,31 +25,26 @@ import java.security.NoSuchAlgorithmException;
  */
 
 public class AuthenticateWithOAuthTask extends
-        AsyncTask<Void, String, AuthenticateWithOAuthTask.AuthenticationResult> {
+        AsyncTask<Void, Integer, AuthenticateWithOAuthTask.AuthenticationResult> {
 
     public enum AuthenticationResult {
         SUCCESS, AUTH_ERROR, INVALID_CREDENTIALS
     }
 
+    private ProgressBar mProgressBar;
     private final Context mContext;
     private final CharSequence username, password;
-    private XAuthConsumer consumer;
-    private SignpostClient client;
-    private final MessageSigner messageSigner;
 
     public AuthenticateWithOAuthTask(Context mContext, CharSequence username, CharSequence password) {
         this.mContext = mContext;
         this.username = username;
         this.password = password;
-        messageSigner = new MessageSigner(Constants.CONSUMER_KEY, Constants.CONSUMER_SECRET);
     }
 
     @Override
     protected AuthenticationResult doInBackground(Void... params) {
-        createHttpClient();
-
         try {
-            requestAccessTokenFromServer();
+            setupRestAdapter();
         } catch (IOException e) {
             e.printStackTrace();
             return AuthenticationResult.INVALID_CREDENTIALS;
@@ -54,70 +53,78 @@ public class AuthenticateWithOAuthTask extends
         return AuthenticationResult.SUCCESS;
     }
 
-    private void createHttpClient() {
-        SignpostClient client = new SignpostClient(consumer);
-    }
+    private AuthenticationResult setupRestAdapter() throws IOException {
 
-    private AuthenticationResult requestAccessTokenFromServer() throws IOException {
-        final OkHttpClient client = new OkHttpClient();
-
-        String nonce = AuthUtils.getNonce();
-        String timestamp = AuthUtils.getTimestamp();
-        String signature = "";
         try {
-            signature = AuthUtils.getSignature(Constants.ACCESS_TOKEN_URL, Constants.CONSUMER_SECRET);
+            final String nonce = AuthUtils.getNonce();
+            final String timestamp = AuthUtils.getTimestamp();
+            final String signature = AuthUtils.getSignature(Constants.ACCESS_TOKEN_URL, Constants.CONSUMER_SECRET);
+
+            RestAdapter.Builder builder = new RestAdapter.Builder()
+                    .setRequestInterceptor(new RequestInterceptor() {
+                        @Override
+                        public void intercept(RequestFacade request) {
+                            request.addHeader("oauth_signature", signature);
+                            request.addHeader("oauth_signature_method", "PLAINTEXT");
+                            request.addHeader("oauth_nonce", nonce);
+                            request.addHeader("oauth_timestamp", timestamp);
+                            request.addHeader("oauth_consumer_key", Constants.CONSUMER_KEY);
+                            request.addHeader("oauth_consumer_secret", Constants.CONSUMER_SECRET);
+                            request.addHeader("oauth_callback", Constants.CALLBACK_URL);
+                            request.addHeader("x_auth_username", username.toString());
+                            request.addHeader("x_auth_password", password.toString());
+                            request.addHeader("x_auth_mode", "client_auth");
+                        }
+                    })
+                    .setEndpoint(Constants.ACCESS_TOKEN_URL)
+                    .setClient(new OkClient(new OkHttpClient()))
+                    .setLogLevel(Constants.LOG_LEVEL);
+
+            RestAdapter adapter = builder.build();
+            ReadabilityApi mApi = adapter.create(ReadabilityApi.class);
+
+//
+//            if (response.message().equals("UNAUTHORIZED"))
+//                return AuthenticationResult.INVALID_CREDENTIALS;
+//
+//            String token = response.header("token");
+//            String tokenSecret = response.header("token_secret");
+//
+//            AccessToken.getInstance().setToken(token);
+//            AccessToken.getInstance().setTokenSecret(tokenSecret);
+
+            return AuthenticationResult.SUCCESS;
         } catch (NoSuchAlgorithmException | KeyException e) {
             //impossibru!
         }
-
-        if (nonce == null || signature.equals("")) {
-            Toast.makeText(mContext, "AuthUtils Error.", Toast.LENGTH_LONG).show();
-            Log.e("AuthUtils Error", "nonce IS: " + nonce + "AND signature IS: " + signature);
-
-            return AuthenticationResult.AUTH_ERROR;
-        }
-
-        Request request = new Request.Builder()
-                .url(Constants.ACCESS_TOKEN_URL)
-                .addHeader("oauth_signature", signature)
-                .addHeader("oauth_signature_method", "PLAINTEXT")
-                .addHeader("oauth_nonce", nonce)
-                .addHeader("oauth_timestamp", timestamp)
-                .addHeader("oauth_consumer_key", Constants.CONSUMER_KEY)
-                .addHeader("oauth_consumer_secret", Constants.CONSUMER_SECRET)
-                .addHeader("oauth_callback", Constants.CALLBACK_URL)
-                .addHeader("x_auth_username", username.toString())
-                .addHeader("x_auth_password", password.toString())
-                .addHeader("x_auth_mode", "client_auth")
-                .build();
-
-        Response response = client.newCall(request).execute();
-
-        if (response.message().equals("UNAUTHORIZED"))
-            return AuthenticationResult.INVALID_CREDENTIALS;
+////////////
+//        if (nonce == null || signature.equals("")) {
+//            Toast.makeText(mContext, "AuthUtils Error.", Toast.LENGTH_LONG).show();
+//            Log.e("AuthUtils Error", "nonce IS: " + nonce + "AND signature IS: " + signature);
+//
+        return AuthenticationResult.AUTH_ERROR;
+//        }
 
 
-        String token = response.header("token");
-        String tokenSecret = response.header("token_secret");
-
-        AccessToken.getInstance().setToken(token);
-        AccessToken.getInstance().setTokenSecret(tokenSecret);
-
-        return AuthenticationResult.SUCCESS;
     }
 
     @Override
-    protected void onProgressUpdate(String... values) {
+    protected void onProgressUpdate(Integer... values) {
         super.onProgressUpdate(values);
-        for (String value : values) {
-            Toast.makeText(mContext, value, Toast.LENGTH_SHORT).show();
-        }
+        mProgressBar.setVisibility(View.VISIBLE);
+        mProgressBar.setIndeterminate(false);
+        mProgressBar.setProgress(values[0]);
     }
 
     @Override
     protected void onPostExecute(AuthenticationResult authenticationResult) {
         super.onPostExecute(authenticationResult);
-
+        mProgressBar.setProgress(0);
+        mProgressBar.setVisibility(View.GONE);
         Toast.makeText(mContext, AccessToken.getInstance().getToken(), Toast.LENGTH_LONG).show();
+    }
+
+    public void setProgressBar(ProgressBar mProgressBar) {
+        this.mProgressBar = mProgressBar;
     }
 }

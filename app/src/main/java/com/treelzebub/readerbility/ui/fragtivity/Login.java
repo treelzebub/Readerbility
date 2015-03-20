@@ -1,11 +1,9 @@
 package com.treelzebub.readerbility.ui.fragtivity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,15 +14,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.treelzebub.readerbility.R;
 import com.treelzebub.readerbility.auth.AuthenticateWithOAuthTask;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Properties;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -70,8 +62,6 @@ public class Login {
         public LoginFragment() {
         }
 
-        private Context mActivity;
-
         @InjectView(R.id.progress_bar)
         ProgressBar mProgressBar;
         @InjectView(R.id.username_edit)
@@ -85,7 +75,6 @@ public class Login {
         @Override
         public void onStart() {
             super.onStart();
-            mActivity = getActivity();
         }
 
         @Override
@@ -118,7 +107,7 @@ public class Login {
 
             if (v.getTag().equals("submit")) {
                 AuthenticateWithOAuthTask task = new AuthenticateWithOAuthTask(getActivity(), username, password);
-//                task.setProgressBar(mProgressBar);
+                task.setProgressBar(mProgressBar);
                 task.execute();
 
             }
