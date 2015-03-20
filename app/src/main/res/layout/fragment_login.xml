@@ -27,4 +27,13 @@
         android:text="Submit"
         android:padding="@dimen/abc_dropdownitem_text_padding_left"/>
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="@dimen/abc_action_bar_progress_bar_size"
+        android:layout_height="@dimen/abc_action_bar_progress_bar_size"
+        android:padding="@dimen/abc_control_padding_material"
+        android:layout_gravity="center_horizontal"/>
+
+
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.treelzebub.readerbility.ui.fragtivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import android.widget.ProgressBar;
 
 import com.treelzebub.readerbility.R;
 import com.treelzebub.readerbility.auth.AuthenticateWithOAuthTask;
+import com.treelzebub.readerbility.util.Settings;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -32,8 +34,7 @@ public class Login {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.login_dialog);
-
+            setContentView(R.layout.activity_login);
         }
 
         @Override
@@ -54,22 +55,20 @@ public class Login {
         }
     }
 
-
     public static class LoginFragment extends Fragment implements OnClickListener {
         public static final String TAG = "LoginFragment";
-
 
         public LoginFragment() {
         }
 
-        @InjectView(R.id.progress_bar)
-        ProgressBar mProgressBar;
         @InjectView(R.id.username_edit)
         EditText mUsernameEdit;
         @InjectView(R.id.pwd_edit)
         EditText mPasswordEdit;
         @InjectView(R.id.submit_button)
         Button mSubmitButton;
+        @InjectView(R.id.progress_bar)
+        ProgressBar mProgressBar;
 
         //Lifecycle
         @Override
@@ -109,7 +108,6 @@ public class Login {
                 AuthenticateWithOAuthTask task = new AuthenticateWithOAuthTask(getActivity(), username, password);
                 task.setProgressBar(mProgressBar);
                 task.execute();
-
             }
         }
 
@@ -117,15 +115,13 @@ public class Login {
         public boolean onOptionsItemSelected(MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.action_settings:
-//                    Intent i = new Intent(this, Settings.SettingsActivity.class);
+                    Intent i = new Intent(getActivity(), Settings.SettingsActivity.class);
                     return true;
                 default:
                     break;
             }
-
             return false; //because fragment.
         }
-
-
     }
+
 }
