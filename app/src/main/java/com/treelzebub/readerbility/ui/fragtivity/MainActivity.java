@@ -1,7 +1,6 @@
 package com.treelzebub.readerbility.ui.fragtivity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,7 +17,6 @@ import com.treelzebub.readerbility.Constants;
 import com.treelzebub.readerbility.NavigationDrawerFragment;
 import com.treelzebub.readerbility.NavigationDrawerFragment.NavigationDrawerCallbacks;
 import com.treelzebub.readerbility.R;
-import com.treelzebub.readerbility.api.ReadabilityApi;
 
 import retrofit.RestAdapter;
 
@@ -40,8 +38,6 @@ public class MainActivity extends ActionBarActivity
                 .setEndpoint(Constants.BASE_URL)
                 .build();
 
-        ReadabilityApi api = restAdapter.create(ReadabilityApi.class);
-
         FragmentManager fm = getSupportFragmentManager();
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 fm.findFragmentById(R.id.navigation_drawer);
@@ -51,8 +47,9 @@ public class MainActivity extends ActionBarActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        Intent i = new Intent(this, Login.LoginActivity.class);
-        startActivity(i);
+        fm.beginTransaction()
+                .add(R.id.container, new Login.LoginFragment())
+                .commit();
     }
 
     @Override

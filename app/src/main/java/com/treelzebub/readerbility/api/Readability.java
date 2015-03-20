@@ -5,5 +5,8 @@ package com.treelzebub.readerbility.api;
  */
 
 public class Readability {
+    public static ReadabilityApi API;
+
+    public Readability(){}
 
 }

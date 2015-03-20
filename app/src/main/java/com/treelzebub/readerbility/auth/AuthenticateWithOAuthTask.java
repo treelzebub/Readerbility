@@ -2,13 +2,18 @@ package com.treelzebub.readerbility.auth;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.squareup.okhttp.OkHttpClient;
 import com.treelzebub.readerbility.Constants;
+import com.treelzebub.readerbility.R;
+import com.treelzebub.readerbility.api.Readability;
 import com.treelzebub.readerbility.api.ReadabilityApi;
+import com.treelzebub.readerbility.ui.fragtivity.Library;
 
 import java.io.IOException;
 import java.security.KeyException;
@@ -32,11 +37,11 @@ public class AuthenticateWithOAuthTask extends
     }
 
     private ProgressBar mProgressBar;
-    private final Context mContext;
+    private final ActionBarActivity mContext;
     private final CharSequence username, password;
 
     public AuthenticateWithOAuthTask(Context mContext, CharSequence username, CharSequence password) {
-        this.mContext = mContext;
+        this.mContext = (ActionBarActivity) mContext;
         this.username = username;
         this.password = password;
     }
@@ -81,9 +86,13 @@ public class AuthenticateWithOAuthTask extends
                     .setLogLevel(Constants.LOG_LEVEL);
 
             RestAdapter adapter = builder.build();
-            ReadabilityApi mApi = adapter.create(ReadabilityApi.class);
+            Readability.API = adapter.create(ReadabilityApi.class);
 
-//
+            FragmentManager fm = mContext.getSupportFragmentManager();
+            fm.beginTransaction()
+                    .replace(R.id.container, new Library.LibraryFragment())
+                    .commit();
+
 //            if (response.message().equals("UNAUTHORIZED"))
 //                return AuthenticationResult.INVALID_CREDENTIALS;
 //
@@ -104,7 +113,6 @@ public class AuthenticateWithOAuthTask extends
 //
         return AuthenticationResult.AUTH_ERROR;
 //        }
-
 
     }
 

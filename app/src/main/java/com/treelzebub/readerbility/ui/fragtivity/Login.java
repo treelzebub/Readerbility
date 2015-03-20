@@ -4,10 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,33 +24,6 @@ import butterknife.InjectView;
  * Created by Tre Murillo on 2/27/15
  */
 public class Login {
-
-    public static class LoginActivity extends ActionBarActivity {
-        public static final String TAG = "LoginActivity";
-
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_login);
-        }
-
-        @Override
-        public boolean onCreateOptionsMenu(Menu menu) {
-            MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.login, menu);
-            return true;
-        }
-
-        @Override
-        public void finish() {
-            super.finish();
-        }
-
-        @Override
-        protected void onDestroy() {
-            super.onDestroy();
-        }
-    }
 
     public static class LoginFragment extends Fragment implements OnClickListener {
         public static final String TAG = "LoginFragment";
@@ -93,6 +63,7 @@ public class Login {
             View v = inflater.inflate(R.layout.fragment_login, container, false);
             ButterKnife.inject(this, v);
 
+            mProgressBar.setVisibility(View.VISIBLE);
             mSubmitButton.setOnClickListener(this);
 
             return v;
