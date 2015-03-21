@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -19,14 +18,14 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/abc_dropdownitem_text_padding_left"
         android:inputType="text"
-        android:hint="@string/username_hint"/>
+        android:text="readability_test_account"/>
 
     <EditText
         android:id="@+id/pwd_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
-        android:hint="@string/password_hint"
+        android:text="password"
         android:padding="@dimen/abc_dropdownitem_text_padding_left" />
 
     <Button
