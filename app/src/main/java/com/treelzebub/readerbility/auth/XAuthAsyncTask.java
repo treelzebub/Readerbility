@@ -5,6 +5,12 @@ import android.util.Log;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Headers;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 import com.treelzebub.readerbility.Constants;
 
 import org.apache.http.HttpEntity;
@@ -154,11 +160,41 @@ public class XAuthAsyncTask extends AsyncTask<Void, Integer, Void> {
 
     private String sendRequest(String url, String postString) throws IOException {
         //POST&https%3A%2F%2Fapi.twitter.com%2Foauth%2Faccess_token&oauth_consumer_key%3DJvyS7DO2qd6NNTsXJ4E7zA%26oauth_nonce%3D6AN2dKRzxyGhmIXUKSmp1JcB4pckM8rD3frKMTmVAo%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1284565601%26oauth_version%3D1.0%26x_auth_mode%3Dclient_auth%26x_auth_password%3Dtwitter-xauth%26x_auth_username%3Doauth_test_exec
-        HttpClient client = new DefaultHttpClient();
+        OkHttpClient client = new OkHttpClient();
 
         if (postString.compareTo("") != 0) {
             // GET & POST Request
-            HttpPost post = new HttpPost(url);
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .post(RequestBody.create(Constants.MEDIA_TYPE_MARKDOWN, postString))
+                    .build();
+
+            Callback tokenCallback = new Callback() {
+                @Override
+                public void onFailure(Request request, IOException e) {
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onResponse(Response response) throws IOException {
+                    if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+                    Headers responseHeaders = response.headers();
+                    for (int i = 0; i < responseHeaders.size(); i++) {
+                        //TODO
+                        System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
+                        System.out.println("SUCCESS!!!!!!!!!111`~~`");
+                    }
+
+                    //TODO
+                    AccessToken.responseBody = response.body();
+                }
+            };
+
+            client.newCall(request).enqueue(tokenCallback);
+
+//            HttpPost post = new HttpPost(url);
 
             // Create POST List
             List<NameValuePair> pairs = new ArrayList<NameValuePair>();
@@ -173,9 +209,9 @@ public class XAuthAsyncTask extends AsyncTask<Void, Integer, Void> {
             // Get HTTP Response & Parse it
             HttpResponse response = client.execute(post);
             HttpEntity entity = response.getEntity();
-        // DEBUG
-        // post =
-        // postString = oauth_consumer_key=treelzebub&oauth_consumer_secret=qMnTRpLAntrDC3f3xJyeHR6WwUWmCXYU&oauth_nonce=2ae58f0172e2cbbde1e58eed8afe72&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1426918233956&oauth_version=1.0&x_auth_username= --- &x_auth_password= --- &x_auth_mode=client_auth
+            // DEBUG
+            // post =
+            // postString = oauth_consumer_key=treelzebub&oauth_consumer_secret=qMnTRpLAntrDC3f3xJyeHR6WwUWmCXYU&oauth_nonce=2ae58f0172e2cbbde1e58eed8afe72&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1426918233956&oauth_version=1.0&x_auth_username= --- &x_auth_password= --- &x_auth_mode=client_auth
 
             if (entity != null) {
                 InputStream instream = entity.getContent();
@@ -271,5 +307,8 @@ public class XAuthAsyncTask extends AsyncTask<Void, Integer, Void> {
         }
         return postify;
     }
+
+
+    //TODO organize
 
 }

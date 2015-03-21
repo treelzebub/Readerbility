@@ -1,11 +1,14 @@
 package com.treelzebub.readerbility.auth;
 
+import com.squareup.okhttp.ResponseBody;
+
 /**
  * Created by Tre Murillo on 3/18/15
  */
 public class AccessToken {
 
     private static AccessToken instance;
+    public static ResponseBody responseBody;
 
     public static AccessToken getInstance() {
         return instance == null ? instance = new AccessToken() : instance;

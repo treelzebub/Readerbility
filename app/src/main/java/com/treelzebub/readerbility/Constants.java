@@ -1,5 +1,7 @@
 package com.treelzebub.readerbility;
 
+import com.squareup.okhttp.MediaType;
+
 import retrofit.RestAdapter.LogLevel;
 
 /**
@@ -22,6 +24,7 @@ public class Constants {
     public static final LogLevel LOG_LEVEL = LogLevel.BASIC;
 
     public static final String CONTENT_TYPE = "application/x-www-form-urlencoded";
+    public static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse(CONTENT_TYPE);
 
     public static final long EMPTY_LONG = 0L;
 
