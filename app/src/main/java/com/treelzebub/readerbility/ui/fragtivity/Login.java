@@ -75,7 +75,7 @@ public class Login {
             CharSequence username = mUsernameEdit.getText().toString();
             CharSequence password = mPasswordEdit.getText().toString();
 
-            if (v.getTag().equals("submit")) {
+            if (v.getId() == R.id.submit_button) {
                 AuthenticateWithOAuthTask task = new AuthenticateWithOAuthTask(getActivity(), username, password);
                 task.setProgressBar(mProgressBar);
                 task.execute();

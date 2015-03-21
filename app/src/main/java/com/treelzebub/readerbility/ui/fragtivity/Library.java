@@ -9,17 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.treelzebub.readerbility.R;
+import com.treelzebub.readerbility.api.BookmarksAsyncTask;
+import com.treelzebub.readerbility.api.Readability;
 import com.treelzebub.readerbility.api.model.Bookmark;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 /**
  * Created by Tre Murillo on 2/27/15
@@ -33,28 +30,33 @@ public class Library {
         public LibraryFragment() {
         }
 
-        @InjectView(android.R.id.list) ListView mListView;
+        @Override
+        public void onStart() {
+            super.onStart();
+
+            // get Bookmarks from API
+            new BookmarksAsyncTask().execute();
+
+        }
 
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                                  @Nullable Bundle savedInstanceState) {
             super.onCreateView(inflater, container, savedInstanceState);
-            View v = new View(getActivity());
-            ButterKnife.inject(this, v);
+            View v = inflater.inflate(R.layout.fragment_library, container, false);
 
-            LibraryAdapter adapter = new LibraryAdapter(getActivity());
-
+            LibraryAdapter adapter = new LibraryAdapter(getActivity(), Readability.library);
             setListAdapter(adapter);
             return v;
         }
 
-        private static class LibraryAdapter extends BaseAdapter {
+        private class LibraryAdapter extends BaseAdapter {
 
             LayoutInflater mInflater;
 
-            LibraryAdapter(Context c) {
-                mLibrary = new ArrayList<>();
-                mInflater = LayoutInflater.from(c);
+            LibraryAdapter(Context context, List<Bookmark> library) {
+                mLibrary = library;
+                mInflater = LayoutInflater.from(context);
             }
 
             @Override

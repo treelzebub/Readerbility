@@ -2,31 +2,25 @@ package com.treelzebub.readerbility.auth;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Looper;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.squareup.okhttp.OkHttpClient;
 import com.treelzebub.readerbility.Constants;
 import com.treelzebub.readerbility.R;
-import com.treelzebub.readerbility.api.Readability;
-import com.treelzebub.readerbility.api.ReadabilityApi;
 import com.treelzebub.readerbility.ui.fragtivity.Library;
 
 import java.io.IOException;
 import java.security.KeyException;
 import java.security.NoSuchAlgorithmException;
 
-import retrofit.RequestInterceptor;
-import retrofit.RestAdapter;
-import retrofit.client.OkClient;
-
 /**
  * Created by Tre Murillo on 3/18/15
- * <p/>
- * An AsyncTask that acquires OAuth tokens from an API endpoint
+ *
+ * An AsyncTask that acquires an OAuth token from an API endpoint
  */
 
 public class AuthenticateWithOAuthTask extends
@@ -65,30 +59,10 @@ public class AuthenticateWithOAuthTask extends
             final String timestamp = AuthUtils.getTimestamp();
             final String signature = AuthUtils.getSignature(Constants.ACCESS_TOKEN_URL, Constants.CONSUMER_SECRET);
 
-            RestAdapter.Builder builder = new RestAdapter.Builder()
-                    .setRequestInterceptor(new RequestInterceptor() {
-                        @Override
-                        public void intercept(RequestFacade request) {
-                            request.addHeader("oauth_signature", signature);
-                            request.addHeader("oauth_signature_method", "PLAINTEXT");
-                            request.addHeader("oauth_nonce", nonce);
-                            request.addHeader("oauth_timestamp", timestamp);
-                            request.addHeader("oauth_consumer_key", Constants.CONSUMER_KEY);
-                            request.addHeader("oauth_consumer_secret", Constants.CONSUMER_SECRET);
-                            request.addHeader("oauth_callback", Constants.CALLBACK_URL);
-                            request.addHeader("x_auth_username", username.toString());
-                            request.addHeader("x_auth_password", password.toString());
-                            request.addHeader("x_auth_mode", "client_auth");
-                        }
-                    })
-                    .setEndpoint(Constants.ACCESS_TOKEN_URL)
-                    .setClient(new OkClient(new OkHttpClient()))
-                    .setLogLevel(Constants.LOG_LEVEL);
 
-            RestAdapter adapter = builder.build();
-            Readability.API = adapter.create(ReadabilityApi.class);
 
             FragmentManager fm = mContext.getSupportFragmentManager();
+            Looper.prepare();
             fm.beginTransaction()
                     .replace(R.id.container, new Library.LibraryFragment())
                     .commit();

@@ -5,9 +5,11 @@ import com.treelzebub.readerbility.Constants;
 import org.apache.commons.codec.binary.Base64;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
@@ -19,22 +21,27 @@ import javax.crypto.spec.SecretKeySpec;
 public class AuthUtils {
 
     public static String getNonce() {
+        return md5(Long.toString(System.currentTimeMillis()));
+    }
 
+    private static String md5(String s) {
         try {
-            MessageDigest digest = MessageDigest.getInstance("MD5");
-
-            digest.update(Double.toString(System.currentTimeMillis() + Math.random()).getBytes());
-            StringBuffer hexString = new StringBuffer();
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest
+                    .getInstance("MD5");
+            digest.update(s.getBytes());
             byte messageDigest[] = digest.digest();
-            for (byte aMessageDigest : messageDigest) {
-                hexString.append(Integer.toHexString(0xFF & aMessageDigest));
-            }
 
+            // Create Hex String
+            StringBuilder hexString = new StringBuilder();
+            for (byte aMessageDigest : messageDigest)
+                hexString.append(Integer.toHexString(0xFF & aMessageDigest));
             return hexString.toString();
+
         } catch (NoSuchAlgorithmException e) {
-            // not happening.
+            // there is SoSuchAlgorithm.
         }
-        return null;
+        return "";
     }
 
     public static String getTimestamp() {
@@ -47,12 +54,9 @@ public class AuthUtils {
         /**
          * base has three parts, all connected by "&"
          * 1) protocol
-         * 2) URL *
-         * 3) Parameter List *
-         *
-         *       * needs to be URLEncoded
+         * 2) URL (url encoded)
+         * 3) Parameter List (url encoded)
          */
-
         Base64 base64 = new Base64();
 
         StringBuilder base = new StringBuilder()
@@ -69,8 +73,28 @@ public class AuthUtils {
         Mac mac = Mac.getInstance(Constants.SIGNATURE_METHOD);
         mac.init(key);
 
-        // encode it; base64 it; trim+string it; return
+        // encode it; base64 it; string it; return
         return new String(base64.encode(mac.doFinal(base.toString().getBytes(
                 Constants.ENCODING))), Constants.ENCODING).trim();
+    }
+
+    public static String encodeForOAuth(String s) {
+        // Sort the requests
+        String[] params = s.split("&");
+        Arrays.sort(params);
+
+        // URL Encode Key and Values
+        int j = 0;
+        String postify = "";
+        for (String aPar : params) {
+            if (j == 1) postify += "&";
+
+            String[] temp = aPar.split("=");
+            postify += URLEncoder.encode(temp[0]) + "="
+                    + URLEncoder.encode(temp[1]);
+            j = 1;
+        }
+
+        return postify;
     }
 }
