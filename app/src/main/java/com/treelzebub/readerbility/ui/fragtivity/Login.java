@@ -12,9 +12,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.treelzebub.readerbility.R;
-import com.treelzebub.readerbility.auth.AuthenticateWithOAuthTask;
+import com.treelzebub.readerbility.auth.AccessToken;
+import com.treelzebub.readerbility.auth.XAuthAsyncTask;
 import com.treelzebub.readerbility.util.Settings;
 
 import butterknife.ButterKnife;
@@ -63,7 +65,6 @@ public class Login {
             View v = inflater.inflate(R.layout.fragment_login, container, false);
             ButterKnife.inject(this, v);
 
-            mProgressBar.setVisibility(View.VISIBLE);
             mSubmitButton.setOnClickListener(this);
 
             return v;
@@ -72,13 +73,17 @@ public class Login {
         @Override
         public void onClick(View v) {
             //TODO delete password immediately after auth
-            CharSequence username = mUsernameEdit.getText().toString();
-            CharSequence password = mPasswordEdit.getText().toString();
+            String username = mUsernameEdit.getText().toString();
+            String password = mPasswordEdit.getText().toString();
 
             if (v.getId() == R.id.submit_button) {
-                AuthenticateWithOAuthTask task = new AuthenticateWithOAuthTask(getActivity(), username, password);
-                task.setProgressBar(mProgressBar);
-                task.execute();
+                if (!username.trim().equals("") || !password.trim().equals("")) {
+                    AccessToken.getInstance().setUsername(username);
+                    AccessToken.getInstance().setPassword(password);
+                    new XAuthAsyncTask().execute();
+                } else {
+                    Toast.makeText(this.getActivity(), "Must enter username & password.", Toast.LENGTH_SHORT).show();
+                }
             }
         }
 

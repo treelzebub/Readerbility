@@ -53,7 +53,6 @@ public class BookmarksAsyncTask extends AsyncTask<AccessToken, Integer, List<Boo
 
             RestAdapter adapter = builder.build();
             Readability.API = adapter.create(ReadabilityApi.class);
-//        Readability.library = Readability.API.getBookmarks();
             library = Readability.API.getBookmarks();
 
             return library;

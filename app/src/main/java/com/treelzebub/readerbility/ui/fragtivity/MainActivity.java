@@ -13,12 +13,17 @@ import com.treelzebub.readerbility.NavigationDrawerFragment;
 import com.treelzebub.readerbility.NavigationDrawerFragment.NavigationDrawerCallbacks;
 import com.treelzebub.readerbility.R;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerCallbacks {
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
-    private ProgressBar mProgressBar;
+
+    @InjectView(R.id.progress_bar)
+    ProgressBar mProgressBar;
 
     //Used to store the last screen title. For use in {@link #restoreActionBar()}.
     private CharSequence mTitle;
@@ -27,6 +32,7 @@ public class MainActivity extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.inject(this);
 
         FragmentManager fm = getSupportFragmentManager();
         mNavigationDrawerFragment = (NavigationDrawerFragment)

@@ -52,6 +52,7 @@ public class XAuthAsyncTask extends AsyncTask<Void, Integer, Void> {
     @Override
     protected void onProgressUpdate(Integer... values) {
         super.onProgressUpdate(values);
+
     }
 
     @Override
