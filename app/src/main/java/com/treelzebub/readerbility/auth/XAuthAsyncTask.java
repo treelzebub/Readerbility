@@ -31,8 +31,6 @@ import java.util.List;
 public class XAuthAsyncTask extends AsyncTask<Void, Integer, Void> {
     public static final int OAUTH_SAFE_ENCODE = 1;
 
-    private String API_URI;
-
     private String SAFE_ENCODE = "0";
 
     @Override
@@ -70,7 +68,6 @@ public class XAuthAsyncTask extends AsyncTask<Void, Integer, Void> {
 
     public List<String> xAuthList(String username, String password)
             throws InvalidKeyException, NoSuchAlgorithmException, IOException, JSONException {
-        setApiUri(Constants.ACCESS_TOKEN_URL);
 
         // XAUTH Post requests
         String xPost = "&x_auth_username=" + username + "&x_auth_password="
@@ -82,7 +79,7 @@ public class XAuthAsyncTask extends AsyncTask<Void, Integer, Void> {
                 + "&oauth_nonce=" + AuthUtils.getNonce()
                 + "&oauth_signature_method=HMAC-SHA1&oauth_timestamp="
                 + AuthUtils.getTimestamp() + "&oauth_version=1.0" + xPost;
-        if (getSafeEncode().compareTo("1") == 0) {
+        if (getSafeEncode().equals("")) {
             post += "&safe_encode=" + Integer.toString(OAUTH_SAFE_ENCODE);
         }
 
@@ -99,7 +96,7 @@ public class XAuthAsyncTask extends AsyncTask<Void, Integer, Void> {
         // Send to Readability
         String oauth_sig = "?oauth_signature=";
         oauth_sig += URLEncoder.encode(signature);
-        String url = Constants.BASE_URL + getApiUri() + oauth_sig;
+        String url = Constants.BASE_URL + Constants.ACCESS_TOKEN_URL + oauth_sig;
 
         // Execute OkHttp Request
         try {
@@ -128,14 +125,6 @@ public class XAuthAsyncTask extends AsyncTask<Void, Integer, Void> {
 
         AccessToken.getInstance().clearPassword();
         return xAuthValList;
-    }
-
-    public void setApiUri(String s) {
-        this.API_URI = s;
-    }
-
-    public String getApiUri() {
-        return this.API_URI;
     }
 
     public void setSafeEncode(String s) {
@@ -179,12 +168,15 @@ public class XAuthAsyncTask extends AsyncTask<Void, Integer, Void> {
             }
         };
 
-        client.newCall(request).enqueue(tokenCallback);
+        client.newCall(request).execute();
+        //TODO
+        // Response{protocol=http/1.1, code=401, message=UNAUTHORIZED,
+        // url=https://www.readability.com/api/rest/v1/oauth/access_token?oauth_signature=8RvcJTzmzLOLMQouH3QXPL27DKs%3D}
 
     }
 
     private String generateBaseSignature(String s) {
-        return "POST&" + URLEncoder.encode(Constants.BASE_URL + getApiUri()) + "&"
+        return "POST&" + URLEncoder.encode(Constants.BASE_URL + Constants.ACCESS_TOKEN_URL) + "&"
                 + URLEncoder.encode(s);
     }
 
