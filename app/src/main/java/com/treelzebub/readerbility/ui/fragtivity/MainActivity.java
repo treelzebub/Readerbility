@@ -7,14 +7,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ProgressBar;
 
 import com.treelzebub.readerbility.NavigationDrawerFragment;
 import com.treelzebub.readerbility.NavigationDrawerFragment.NavigationDrawerCallbacks;
 import com.treelzebub.readerbility.R;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 
 public class MainActivity extends ActionBarActivity
@@ -22,8 +18,8 @@ public class MainActivity extends ActionBarActivity
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
-    @InjectView(R.id.progress_bar)
-    ProgressBar mProgressBar;
+//    @InjectView(R.id.progress_bar)
+//    ProgressBar mProgressBar;
 
     //Used to store the last screen title. For use in {@link #restoreActionBar()}.
     private CharSequence mTitle;
@@ -32,7 +28,7 @@ public class MainActivity extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.inject(this);
+//        ButterKnife.inject(this);
 
         FragmentManager fm = getSupportFragmentManager();
         mNavigationDrawerFragment = (NavigationDrawerFragment)

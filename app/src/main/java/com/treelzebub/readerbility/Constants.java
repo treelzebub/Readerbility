@@ -13,7 +13,7 @@ public class Constants {
     public static final String CONSUMER_SECRET = "qMnTRpLAntrDC3f3xJyeHR6WwUWmCXYU";
 
     public static final String BASE_URL = "https://www.readability.com/api/rest/v1";
-    public static final String ACCESS_TOKEN_URL = BASE_URL + "/oauth/access_token";
+    public static final String ACCESS_TOKEN_URL = "/oauth/access_token";
     public static final String ENCODING = "UTF-8";
     public static final String SIGNATURE_METHOD = "HMAC-SHA1";
     public static final String CALLBACK_URL = "com.treelzebub://readability";

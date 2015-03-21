@@ -11,7 +11,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.treelzebub.readerbility.R;
@@ -39,8 +38,6 @@ public class Login {
         EditText mPasswordEdit;
         @InjectView(R.id.submit_button)
         Button mSubmitButton;
-        @InjectView(R.id.progress_bar)
-        ProgressBar mProgressBar;
 
         //Lifecycle
         @Override

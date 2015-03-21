@@ -1,7 +1,10 @@
 package com.treelzebub.readerbility.auth;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.treelzebub.readerbility.Constants;
 
 import org.apache.http.HttpEntity;
@@ -13,7 +16,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,8 +30,8 @@ import java.util.List;
 
 /**
  * Created by Tre Murillo on 3/20/15
- *
- *  An AsyncTask which obtains an xAuth token from Readability
+ * <p/>
+ * An AsyncTask which obtains an xAuth token from Readability
  */
 public class XAuthAsyncTask extends AsyncTask<Void, Integer, Void> {
     public static final int OAUTH_SAFE_ENCODE = 1;
@@ -66,13 +68,14 @@ public class XAuthAsyncTask extends AsyncTask<Void, Integer, Void> {
             List<String> xAuthList = xAuthList(AccessToken.getInstance().getUsername(), AccessToken.getInstance().getPassword());
         } catch (JSONException | NoSuchAlgorithmException | InvalidKeyException | IOException e) {
             e.printStackTrace();
+            Log.e("Auth Error", e.getMessage());
         }
         return null;
     }
 
     public List<String> xAuthList(String username, String password)
             throws InvalidKeyException, NoSuchAlgorithmException, IOException, JSONException {
-        setApiUri("oauth/access_token");
+        setApiUri(Constants.ACCESS_TOKEN_URL);
 
         // XAUTH Post requests
         String xPost = "&x_auth_username=" + username + "&x_auth_password="
@@ -80,6 +83,7 @@ public class XAuthAsyncTask extends AsyncTask<Void, Integer, Void> {
 
         // OAUTH Post requests
         String post = "oauth_consumer_key=" + Constants.CONSUMER_KEY
+                + "&oauth_consumer_secret=" + Constants.CONSUMER_SECRET
                 + "&oauth_nonce=" + AuthUtils.getNonce()
                 + "&oauth_signature_method=HMAC-SHA1&oauth_timestamp="
                 + AuthUtils.getTimestamp() + "&oauth_version=1.0" + xPost;
@@ -106,18 +110,19 @@ public class XAuthAsyncTask extends AsyncTask<Void, Integer, Void> {
         // Log.i("xAuth Response", response);
 
         // Parse JSON to extract Results
-        JSONObject json = new JSONObject(response);
-        JSONObject result = json.getJSONObject("result");
+        JsonParser parser = new JsonParser();
+        JsonObject json = (JsonObject) parser.parse(response);
+        JsonObject result = json.get("result").getAsJsonObject();
 
-        AccessToken.getInstance().setTokenKey(result.getString("oauth_token_key"));
+        AccessToken.getInstance().setTokenKey(result.get("oauth_token_key").getAsString());
         // Log.i("User Key", this.USER_KEY);
-        AccessToken.getInstance().setTokenSecret(result.getString("oauth_token_secret"));
+        AccessToken.getInstance().setTokenSecret(result.get("oauth_token_secret").getAsString());
         // Log.i("User Secret", this.USER_SECRET);
-        String first_name = result.getString("first_name");
+        String first_name = result.get("first_name").getAsString();
         // Log.i("First Name", first_name);
-        String last_name = result.getString("last_name");
+        String last_name = result.get("last_name").getAsString();
         // Log.i("Last Name", last_name);
-        String account_id = result.getString("account_id");
+        String account_id = result.get("account_id").getAsString();
         // Log.i("Account ID", account_id);
 
         List<String> xAuthValList = new ArrayList<String>();
@@ -148,6 +153,7 @@ public class XAuthAsyncTask extends AsyncTask<Void, Integer, Void> {
     }
 
     private String sendRequest(String url, String postString) throws IOException {
+        //POST&https%3A%2F%2Fapi.twitter.com%2Foauth%2Faccess_token&oauth_consumer_key%3DJvyS7DO2qd6NNTsXJ4E7zA%26oauth_nonce%3D6AN2dKRzxyGhmIXUKSmp1JcB4pckM8rD3frKMTmVAo%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1284565601%26oauth_version%3D1.0%26x_auth_mode%3Dclient_auth%26x_auth_password%3Dtwitter-xauth%26x_auth_username%3Doauth_test_exec
         HttpClient client = new DefaultHttpClient();
 
         if (postString.compareTo("") != 0) {
@@ -167,6 +173,10 @@ public class XAuthAsyncTask extends AsyncTask<Void, Integer, Void> {
             // Get HTTP Response & Parse it
             HttpResponse response = client.execute(post);
             HttpEntity entity = response.getEntity();
+        // DEBUG
+        // post =
+        // postString = oauth_consumer_key=treelzebub&oauth_consumer_secret=qMnTRpLAntrDC3f3xJyeHR6WwUWmCXYU&oauth_nonce=2ae58f0172e2cbbde1e58eed8afe72&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1426918233956&oauth_version=1.0&x_auth_username= --- &x_auth_password= --- &x_auth_mode=client_auth
+
             if (entity != null) {
                 InputStream instream = entity.getContent();
                 String result = convertStreamToString(instream);
@@ -246,20 +256,18 @@ public class XAuthAsyncTask extends AsyncTask<Void, Integer, Void> {
 
     private String encodeForOAuth(String s) {
         // Sort the requests
+
         String[] params = s.split("&");
         Arrays.sort(params);
 
         // URL Encode Key and Values
         int max = params.length;
-        int j = 0;
         String postify = "";
         for (String param : params) {
-            if (j == 1)
-                postify += "&";
+            postify += "&";
             String[] temp = param.split("=");
             postify += URLEncoder.encode(temp[0]) + "="
                     + URLEncoder.encode(temp[1]);
-            j = 1;
         }
         return postify;
     }

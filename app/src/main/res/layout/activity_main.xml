@@ -19,4 +19,12 @@
               android:name="com.treelzebub.readerbility.NavigationDrawerFragment"
               tools:layout="@layout/fragment_navigation_drawer"/>
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="@dimen/abc_action_bar_progress_bar_size"
+        android:layout_height="@dimen/abc_action_bar_progress_bar_size"
+        android:padding="@dimen/abc_control_padding_material"
+        android:layout_gravity="center_horizontal"/>
+
 </android.support.v4.widget.DrawerLayout>
