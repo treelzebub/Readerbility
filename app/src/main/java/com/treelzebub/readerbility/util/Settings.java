@@ -3,6 +3,7 @@ package com.treelzebub.readerbility.util;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +33,7 @@ public class Settings {
 
     public static class SettingsFragment extends PreferenceFragment {
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             return super.onCreateView(inflater, container, savedInstanceState);
         }
 
@@ -57,7 +58,7 @@ public class Settings {
         }
 
         @Override
-        public void onSaveInstanceState(Bundle outState) {
+        public void onSaveInstanceState(@NonNull Bundle outState) {
             super.onSaveInstanceState(outState);
         }
 

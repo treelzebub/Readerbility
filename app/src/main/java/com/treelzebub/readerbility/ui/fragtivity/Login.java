@@ -21,7 +21,6 @@ import com.treelzebub.readerbility.auth.async.SetAuthUrl;
 import com.treelzebub.readerbility.util.Settings;
 
 import org.scribe.model.Verifier;
-import org.scribe.oauth.OAuthService;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -38,6 +37,7 @@ public class Login {
 
     public static class LoginActivity extends OAuthLoginActionBarActivity<ReadabilityClient> {
         public static final String TAG = "LoginActivity";
+        private static OAuthLoginActionBarActivity mActivity;
 
         @InjectView(R.id.auth_url_tv)
         TextView mAuthUrlTV;
@@ -53,7 +53,7 @@ public class Login {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_login);
             ButterKnife.inject(this);
-
+            mActivity = this;
             new SetAuthUrl(this).execute();
 
             mProgressBar.setVisibility(View.GONE);
@@ -63,9 +63,8 @@ public class Login {
                 @Override
                 public void onClick(View v) {
                     Readability wrapper = Readability.getInstance();
-                    OAuthService service = wrapper.getService();
                     Intent webPageIntent = new Intent(Intent.ACTION_VIEW);
-                    webPageIntent.setData(Uri.parse(Readability.getInstance().getAuthUrl()));
+                    webPageIntent.setData(Uri.parse(Readability.getAuthUrl()));
                     startActivity(webPageIntent);
                 }
             });
@@ -76,7 +75,7 @@ public class Login {
                     //TODO
                     String codeFromUser = mVerifierET.getText().toString().trim();
                     Verifier verifier = new Verifier(codeFromUser);
-                    new SetAccessToken().execute(verifier);
+                    new SetAccessToken(mActivity).execute(verifier);
                 }
             });
         }

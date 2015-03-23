@@ -1,15 +1,16 @@
 package com.treelzebub.readerbility.auth.async;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
-import com.codepath.oauth.OAuthLoginActionBarActivity;
 import com.treelzebub.readerbility.api.Readability;
 import com.treelzebub.readerbility.ui.fragtivity.Library;
 
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
+
+import java.lang.ref.WeakReference;
 
 /**
  * Created by Tre Murillo on 3/22/15
@@ -19,19 +20,17 @@ import org.scribe.model.Verifier;
  */
 public class SetAccessToken extends AsyncTask<Verifier, Void, Token> {
     private final Readability instance;
-    private final OAuthLoginActionBarActivity mActivity;
+    private final WeakReference<Activity> mActivityReference;
 
-    public SetAccessToken(OAuthLoginActionBarActivity mActivity) {
-        this.mActivity = mActivity;
+    public SetAccessToken(Activity activity) {
+        this.mActivityReference = new WeakReference<>(activity);
+
         instance = Readability.getInstance();
     }
 
     @Override
     protected Token doInBackground(Verifier... params) {
         Token requestToken = instance.getService().getRequestToken();
-        String tokenBody = requestToken.getRawResponse();
-
-        Toast.makeText(mActivity, tokenBody, Toast.LENGTH_LONG).show();
 
         return instance.getService().getAccessToken(requestToken, params[0]);
     }
@@ -39,7 +38,9 @@ public class SetAccessToken extends AsyncTask<Verifier, Void, Token> {
     @Override
     protected void onPostExecute(Token token) {
         super.onPostExecute(token);
+        Activity activity = mActivityReference.get();
+
         Readability.setAccessToken(token);
-        mActivity.startActivity(new Intent(mActivity, Library.LibraryActivity.class));
+        activity.startActivity(new Intent(activity, Library.LibraryActivity.class));
     }
 }
