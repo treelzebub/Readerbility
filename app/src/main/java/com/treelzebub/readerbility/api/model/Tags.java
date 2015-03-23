@@ -8,7 +8,7 @@ import java.util.List;
 public class Tags {
     List<Tag> tags;
 
-    public class Tag {
+    private class Tag {
         int id;
         String tag;
         int appliedCount; // num of bookmarks with this tag

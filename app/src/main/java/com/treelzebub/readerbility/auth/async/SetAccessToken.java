@@ -1,8 +1,12 @@
 package com.treelzebub.readerbility.auth.async;
 
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
+import com.codepath.oauth.OAuthLoginActionBarActivity;
 import com.treelzebub.readerbility.api.Readability;
+import com.treelzebub.readerbility.ui.fragtivity.Library;
 
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
@@ -14,11 +18,20 @@ import org.scribe.model.Verifier;
  * after successful login on API website.
  */
 public class SetAccessToken extends AsyncTask<Verifier, Void, Token> {
-    Readability instance = Readability.getInstance();
+    private final Readability instance;
+    private final OAuthLoginActionBarActivity mActivity;
+
+    public SetAccessToken(OAuthLoginActionBarActivity mActivity) {
+        this.mActivity = mActivity;
+        instance = Readability.getInstance();
+    }
 
     @Override
     protected Token doInBackground(Verifier... params) {
         Token requestToken = instance.getService().getRequestToken();
+        String tokenBody = requestToken.getRawResponse();
+
+        Toast.makeText(mActivity, tokenBody, Toast.LENGTH_LONG).show();
 
         return instance.getService().getAccessToken(requestToken, params[0]);
     }
@@ -27,5 +40,6 @@ public class SetAccessToken extends AsyncTask<Verifier, Void, Token> {
     protected void onPostExecute(Token token) {
         super.onPostExecute(token);
         Readability.setAccessToken(token);
+        mActivity.startActivity(new Intent(mActivity, Library.LibraryActivity.class));
     }
 }

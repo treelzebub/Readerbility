@@ -11,10 +11,14 @@ import org.scribe.model.Token;
 
 /**
  * Created by Tre Murillo on 3/22/15
+ *
+ * An AsyncTask that uses this app's consumer key/secret to obtain a token and url
+ * for the upcoming access token request. The url is displayed to the user as a link
+ * to be opened in the system default browser
  */
 public class SetAuthUrl extends AsyncTask<Void, Void, String> {
-    Readability readability;
-    OAuthLoginActionBarActivity mActivity;
+    private final Readability readability;
+    private final OAuthLoginActionBarActivity mActivity;
 
     public SetAuthUrl(OAuthLoginActionBarActivity mActivity) {
         this.readability = Readability.getInstance();
@@ -33,5 +37,6 @@ public class SetAuthUrl extends AsyncTask<Void, Void, String> {
         super.onPostExecute(authUrl);
         TextView tv = (TextView) mActivity.findViewById(R.id.auth_url_tv);
         tv.setText(authUrl);
+        Readability.setAuthUrl(authUrl);
     }
 }

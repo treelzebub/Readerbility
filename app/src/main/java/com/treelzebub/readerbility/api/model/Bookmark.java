@@ -6,18 +6,20 @@ import org.joda.time.DateTime;
  * Created by Tre Murillo on 2/27/15.
  */
 public class Bookmark {
-    int userId;
-    float readPercent;
-    DateTime dateUpdated;
-    boolean isFavorite;
-    Article article;
+    private int userId;
+    private float readPercent;
+    private DateTime dateUpdated;
+    private boolean isFavorite;
+    private Article article;
 
-    int id;
-    DateTime dateArchived, dateOpened, dateAdded;
-    String archiveHref;
-    DateTime dateFavorited;
-    boolean isArchived;
-    Tags tags;
+    private int id;
+    private DateTime dateArchived;
+    private DateTime dateOpened;
+    private DateTime dateAdded;
+    private String archiveHref;
+    private DateTime dateFavorited;
+    private boolean isArchived;
+    private Tags tags;
 
     static final String[] acceptedFilters = new String[]{
             "archive", "favorite", "domain", "added_since",

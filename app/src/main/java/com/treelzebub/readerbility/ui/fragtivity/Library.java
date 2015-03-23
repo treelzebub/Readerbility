@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 import com.treelzebub.readerbility.NavigationDrawerFragment;
 import com.treelzebub.readerbility.R;
-import com.treelzebub.readerbility.api.BookmarksAsyncTask;
 import com.treelzebub.readerbility.api.Readability;
 import com.treelzebub.readerbility.api.model.Bookmark;
 
@@ -120,12 +119,6 @@ public class Library {
         public static ProgressBar progressBar;
 
         @Override
-        public void onStart() {
-            super.onStart();
-            new BookmarksAsyncTask().execute();
-        }
-
-        @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                                  @Nullable Bundle savedInstanceState) {
             super.onCreateView(inflater, container, savedInstanceState);
@@ -138,7 +131,7 @@ public class Library {
 
         private class LibraryAdapter extends BaseAdapter {
 
-            LayoutInflater mInflater;
+            final LayoutInflater mInflater;
 
             LibraryAdapter(Context context, List<Bookmark> library) {
                 mLibrary = library;

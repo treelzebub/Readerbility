@@ -5,21 +5,21 @@ import org.joda.time.DateTime;
 import java.net.URL;
 
 /**
- * Created by Tre Murillo on 2/28/15.
+ * Created by Tre Murillo on 2/28/15
  */
 public class Article {
-    String domain;
-    String excerpt;
-    int wordcount;
-    boolean isProcessed;
-    int id;
-    String title;
-    URL leadImageUrl;
-    String author;
-    Direction direction;
-    DateTime datePublished;
-    String dek;
-    URL url;
+    private String domain;
+    private String excerpt;
+    private int wordcount;
+    private boolean isProcessed;
+    private int id;
+    private String title;
+    private URL leadImageUrl;
+    private String author;
+    private Direction direction;
+    private DateTime datePublished;
+    private String dek;
+    private URL url;
 
     private enum Direction{
         LTR, RTL

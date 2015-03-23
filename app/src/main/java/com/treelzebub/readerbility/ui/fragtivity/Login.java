@@ -54,7 +54,7 @@ public class Login {
             setContentView(R.layout.activity_login);
             ButterKnife.inject(this);
 
-            new SetAuthUrl().execute();
+            new SetAuthUrl(this).execute();
 
             mProgressBar.setVisibility(View.GONE);
             mAuthUrlTV.setSingleLine();
@@ -65,7 +65,7 @@ public class Login {
                     Readability wrapper = Readability.getInstance();
                     OAuthService service = wrapper.getService();
                     Intent webPageIntent = new Intent(Intent.ACTION_VIEW);
-                    webPageIntent.setData(Uri.parse(      );
+                    webPageIntent.setData(Uri.parse(Readability.getInstance().getAuthUrl()));
                     startActivity(webPageIntent);
                 }
             });
