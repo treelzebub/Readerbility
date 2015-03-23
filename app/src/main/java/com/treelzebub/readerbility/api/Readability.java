@@ -21,7 +21,9 @@ public class Readability {
     private static OAuthService sAuth;
 
     private static List<Bookmark> mLibrary;
-    private static Token mToken;
+    private static String mAuthUrl;
+    private static Token mRequestToken;
+    private static Token mAccessToken; // WHITE! WHALE!
 
     public static Readability getInstance() {
         return instance == null ? instance = new Readability() : instance;
@@ -38,12 +40,28 @@ public class Readability {
                 sAuth;
     }
 
-    public static Token getToken() {
-        return mToken;
+    public static String getAuthUrl() {
+        return mAuthUrl;
     }
 
-    public static void setToken(Token token) {
-        mToken = token;
+    public static void setAuthUrl(String mAuthUrl) {
+        Readability.mAuthUrl = mAuthUrl;
+    }
+
+    public static Token getRequestToken() {
+        return mRequestToken;
+    }
+
+    public static void setRequestToken(Token token) {
+        mRequestToken = token;
+    }
+
+    public static Token getAccessToken() {
+        return mAccessToken;
+    }
+
+    public static void setAccessToken(Token mAccessToken) {
+        Readability.mAccessToken = mAccessToken;
     }
 
     public static List<Bookmark> getLibrary() {

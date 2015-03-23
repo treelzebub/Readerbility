@@ -14,13 +14,14 @@ import android.widget.Toast;
 
 import com.codepath.oauth.OAuthLoginActionBarActivity;
 import com.treelzebub.readerbility.R;
+import com.treelzebub.readerbility.api.Readability;
 import com.treelzebub.readerbility.auth.ReadabilityClient;
 import com.treelzebub.readerbility.auth.async.SetAccessToken;
 import com.treelzebub.readerbility.auth.async.SetAuthUrl;
 import com.treelzebub.readerbility.util.Settings;
 
-import org.scribe.model.Token;
 import org.scribe.model.Verifier;
+import org.scribe.oauth.OAuthService;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -47,10 +48,6 @@ public class Login {
         @InjectView(R.id.login_progress)
         ProgressBar mProgressBar;
 
-
-        private Token mRequestToken;
-        private String mAuthUrl;
-
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -60,12 +57,15 @@ public class Login {
             new SetAuthUrl().execute();
 
             mProgressBar.setVisibility(View.GONE);
-            mAuthUrlTV.setEllipsize(TextUtils.TruncateAt.END);
+            mAuthUrlTV.setSingleLine();
+            mAuthUrlTV.setEllipsize(TextUtils.TruncateAt.MIDDLE);
             mAuthUrlTV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Readability wrapper = Readability.getInstance();
+                    OAuthService service = wrapper.getService();
                     Intent webPageIntent = new Intent(Intent.ACTION_VIEW);
-                    webPageIntent.setData(Uri.parse(mAuthUrl));
+                    webPageIntent.setData(Uri.parse(      );
                     startActivity(webPageIntent);
                 }
             });
