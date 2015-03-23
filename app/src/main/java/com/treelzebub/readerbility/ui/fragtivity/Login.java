@@ -58,13 +58,13 @@ public class Login {
         @Override
         protected void onStart() {
             super.onStart();
+            new SetAuthUrl().execute();
         }
 
         @Override
         protected void onResume() {
             super.onResume();
-            // set text of "hyperlink" to Readability
-            new SetAuthUrl().execute();
+            mVerifierET.requestFocus();
         }
 
         @Override
@@ -124,7 +124,6 @@ public class Login {
 
             @Override
             protected String doInBackground(Void... params) {
-                mProgressBar.setVisibility(View.VISIBLE);
                 sReadability = new ServiceBuilder()
                         .provider(ReadabilityApi.class)
                         .apiKey(Constants.CONSUMER_KEY)
@@ -137,9 +136,14 @@ public class Login {
             @Override
             protected void onPostExecute(String authUrl) {
                 super.onPostExecute(authUrl);
-                mProgressBar.setVisibility(View.GONE);
                 mAuthUrl = authUrl;
                 mAuthUrlTV.setText(authUrl);
+            }
+
+            @Override
+            protected void onCancelled() {
+                super.onCancelled();
+
             }
         }
 
