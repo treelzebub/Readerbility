@@ -1,5 +1,6 @@
 package com.treelzebub.readerbility.ui.fragtivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -39,18 +40,19 @@ public class MainActivity extends ActionBarActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
+        startActivity(new Intent(this, Login.LoginActivity.class));
 
-        fm.beginTransaction()
-                .add(R.id.container, new Login.LoginFragment())
-                .commit();
+//        fm.beginTransaction()
+//                .add(R.id.container, new Login.LoginFragment())
+//                .commit();
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, new Login.LoginFragment())
-                .commit();
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        fragmentManager.beginTransaction()
+//                .replace(R.id.container, new Login.LoginFragment())
+//                .commit();
     }
 
     public void onSectionAttached(int number) {

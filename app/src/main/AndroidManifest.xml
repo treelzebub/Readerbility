@@ -42,7 +42,7 @@
 
         </activity>
 
-        <activity android:name=".ui.fragtivity.Welcome$WelcomeActivity"
+        <activity android:name=".ui.fragtivity.Login$LoginActivity"
             android:label="Welcome!" />
 
         <activity

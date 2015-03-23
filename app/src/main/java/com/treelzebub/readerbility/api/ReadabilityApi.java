@@ -1,30 +1,27 @@
 package com.treelzebub.readerbility.api;
 
-import com.treelzebub.readerbility.api.model.Article;
-import com.treelzebub.readerbility.api.model.Bookmark;
+import com.treelzebub.readerbility.Constants;
 
-import java.util.List;
-
-import retrofit.http.GET;
-import retrofit.http.Path;
+import org.scribe.builder.api.DefaultApi10a;
+import org.scribe.model.Token;
 
 /**
  * Created by Tre Murillo on 2/27/15
  */
-public interface ReadabilityApi {
+public class ReadabilityApi extends DefaultApi10a {
 
-    @GET("/articles/")
-    List<Article> getArticles();
+    @Override
+    public String getRequestTokenEndpoint() {
+        return Constants.REQUEST_TOKEN_URL;
+    }
 
-    @GET("/articles/{article_id}")
-    Article getArticle(@Path("article_id") String article_id);
+    @Override
+    public String getAccessTokenEndpoint() {
+        return Constants.ACCESS_TOKEN_URL;
+    }
 
-    @GET("/bookmarks/")
-    List<Bookmark> getBookmarks();
-
-    @GET("/bookmarks/{bookmark_id}")
-    Bookmark getBookmark(@Path("bookmark_id") String bookmark_id);
-
-    @GET("/bookmarks/{bookmark_id}/tags")
-    String[] getBookmarkTags(@Path("bookmark_id") String bookmark_id);
+    @Override
+    public String getAuthorizationUrl(Token requestToken) {
+        return Constants.AUTHORIZE_URL + "?oauth_token=" + requestToken.getToken();
+    }
 }

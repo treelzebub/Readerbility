@@ -22,13 +22,17 @@ import java.util.List;
  * Created by Tre Murillo on 2/27/15
  */
 public class Library {
-    public static List<Bookmark> mLibrary;
+    public class LibraryActivity {
+        //TODO move navigation drawer shit here from Main
+    }
 
     public static class LibraryFragment extends ListFragment {
         public static final String TAG = "libraryFragment";
 
         public LibraryFragment() {
         }
+
+        public static List<Bookmark> mLibrary;
 
         @Override
         public void onStart() {
@@ -105,5 +109,4 @@ public class Library {
             }
         }
     }
-
 }

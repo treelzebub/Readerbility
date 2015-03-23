@@ -6,6 +6,7 @@ import org.apache.commons.codec.binary.Base64;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -93,19 +94,24 @@ public class AuthUtils {
         String[] params = s.split("&");
         Arrays.sort(params);
 
+        try{
         // URL Encode Key and Values
         int j = 0;
         String postify = "";
-        for (String aPar : params) {
+        for (String param : params) {
             if (j == 1) postify += "&";
 
-            String[] temp = aPar.split("=");
-            postify += URLEncoder.encode(temp[0]) + "="
-                    + URLEncoder.encode(temp[1]);
+            String[] temp = param.split("=");
+            postify += URLEncoder.encode(temp[0], Charset.defaultCharset().name()) + "="
+                    + URLEncoder.encode(temp[1], Charset.defaultCharset().name());
             j = 1;
         }
 
         return postify;
+    } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }
