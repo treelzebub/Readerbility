@@ -51,27 +51,17 @@ public class Login {
         @InjectView(R.id.login_progress)
         ProgressBar mProgressBar;
 
-        private Token mRequestToken;
         private OAuthService sReadability;
+        private Token mRequestToken;
         private String mAuthUrl;
-
-        @Override
-        protected void onStart() {
-            super.onStart();
-            new SetAuthUrl().execute();
-        }
-
-        @Override
-        protected void onResume() {
-            super.onResume();
-            mVerifierET.requestFocus();
-        }
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_login);
             ButterKnife.inject(this);
+
+            new SetAuthUrl().execute();
 
             mProgressBar.setVisibility(View.GONE);
             mAuthUrlTV.setEllipsize(TextUtils.TruncateAt.END);
@@ -120,35 +110,22 @@ public class Login {
             return false;
         }
 
-        private class SetAuthUrl extends AsyncTask<Void, Void, String> {
-
+        private class SetAuthUrl extends AsyncTask<Void, Void, Void> {
             @Override
-            protected String doInBackground(Void... params) {
+            protected Void doInBackground(Void... params) {
                 sReadability = new ServiceBuilder()
                         .provider(ReadabilityApi.class)
                         .apiKey(Constants.CONSUMER_KEY)
                         .apiSecret(Constants.CONSUMER_SECRET)
                         .build();
                 mRequestToken = sReadability.getRequestToken();
-                return sReadability.getAuthorizationUrl(mRequestToken);
-            }
 
-            @Override
-            protected void onPostExecute(String authUrl) {
-                super.onPostExecute(authUrl);
-                mAuthUrl = authUrl;
-                mAuthUrlTV.setText(authUrl);
-            }
-
-            @Override
-            protected void onCancelled() {
-                super.onCancelled();
-
+                mAuthUrlTV.setText(sReadability.getAuthorizationUrl(mRequestToken));
+                return null;
             }
         }
 
         private class SetAccessToken extends AsyncTask<Verifier, Void, Token> {
-
             @Override
             protected Token doInBackground(Verifier... params) {
                 return sReadability.getAccessToken(mRequestToken, params[0]);
