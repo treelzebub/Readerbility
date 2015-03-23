@@ -16,12 +16,14 @@ import android.widget.Toast;
 import com.codepath.oauth.OAuthLoginActionBarActivity;
 import com.treelzebub.readerbility.Constants;
 import com.treelzebub.readerbility.R;
+import com.treelzebub.readerbility.api.Readability;
 import com.treelzebub.readerbility.api.ReadabilityApi;
 import com.treelzebub.readerbility.auth.ReadabilityClient;
 import com.treelzebub.readerbility.util.Settings;
 
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.model.Token;
+import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
 
 import butterknife.ButterKnife;
@@ -54,10 +56,15 @@ public class Login {
         private String mAuthUrl;
 
         @Override
+        protected void onStart() {
+            super.onStart();
+        }
+
+        @Override
         protected void onResume() {
             super.onResume();
             // set text of "hyperlink" to Readability
-            new GetAuthUrl().execute();
+            new SetAuthUrl().execute();
         }
 
         @Override
@@ -66,6 +73,7 @@ public class Login {
             setContentView(R.layout.activity_login);
             ButterKnife.inject(this);
 
+            mProgressBar.setVisibility(View.GONE);
             mAuthUrlTV.setEllipsize(TextUtils.TruncateAt.END);
             mAuthUrlTV.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -79,7 +87,10 @@ public class Login {
             mSubmitButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    //TODO
+                    String codeFromUser = mVerifierET.getText().toString().trim();
+                    Verifier verifier = new Verifier(codeFromUser);
+                    new SetAccessToken().execute(verifier);
                 }
             });
         }
@@ -109,7 +120,7 @@ public class Login {
             return false;
         }
 
-        private class GetAuthUrl extends AsyncTask<Void, Void, String> {
+        private class SetAuthUrl extends AsyncTask<Void, Void, String> {
 
             @Override
             protected String doInBackground(Void... params) {
@@ -126,9 +137,24 @@ public class Login {
             @Override
             protected void onPostExecute(String authUrl) {
                 super.onPostExecute(authUrl);
-//                mProgressBar.setVisibility(View.GONE);
+                mProgressBar.setVisibility(View.GONE);
                 mAuthUrl = authUrl;
                 mAuthUrlTV.setText(authUrl);
+            }
+        }
+
+        private class SetAccessToken extends AsyncTask<Verifier, Void, Token> {
+
+            @Override
+            protected Token doInBackground(Verifier... params) {
+                return sReadability.getAccessToken(mRequestToken, params[0]);
+            }
+
+            @Override
+            protected void onPostExecute(Token token) {
+                super.onPostExecute(token);
+                Readability.getInstance().setToken(token);
+                startActivity(new Intent(getApplicationContext(), Library.LibraryActivity.class));
             }
         }
     }
