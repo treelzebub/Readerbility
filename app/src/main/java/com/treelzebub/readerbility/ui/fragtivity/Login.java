@@ -2,7 +2,6 @@ package com.treelzebub.readerbility.ui.fragtivity;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -14,17 +13,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.oauth.OAuthLoginActionBarActivity;
-import com.treelzebub.readerbility.Constants;
 import com.treelzebub.readerbility.R;
-import com.treelzebub.readerbility.api.Readability;
-import com.treelzebub.readerbility.api.ReadabilityApi;
 import com.treelzebub.readerbility.auth.ReadabilityClient;
+import com.treelzebub.readerbility.auth.async.SetAccessToken;
+import com.treelzebub.readerbility.auth.async.SetAuthUrl;
 import com.treelzebub.readerbility.util.Settings;
 
-import org.scribe.builder.ServiceBuilder;
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
-import org.scribe.oauth.OAuthService;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -51,7 +47,7 @@ public class Login {
         @InjectView(R.id.login_progress)
         ProgressBar mProgressBar;
 
-        private OAuthService sReadability;
+
         private Token mRequestToken;
         private String mAuthUrl;
 
@@ -108,35 +104,6 @@ public class Login {
                     break;
             }
             return false;
-        }
-
-        private class SetAuthUrl extends AsyncTask<Void, Void, Void> {
-            @Override
-            protected Void doInBackground(Void... params) {
-                sReadability = new ServiceBuilder()
-                        .provider(ReadabilityApi.class)
-                        .apiKey(Constants.CONSUMER_KEY)
-                        .apiSecret(Constants.CONSUMER_SECRET)
-                        .build();
-                mRequestToken = sReadability.getRequestToken();
-
-                mAuthUrlTV.setText(sReadability.getAuthorizationUrl(mRequestToken));
-                return null;
-            }
-        }
-
-        private class SetAccessToken extends AsyncTask<Verifier, Void, Token> {
-            @Override
-            protected Token doInBackground(Verifier... params) {
-                return sReadability.getAccessToken(mRequestToken, params[0]);
-            }
-
-            @Override
-            protected void onPostExecute(Token token) {
-                super.onPostExecute(token);
-                Readability.getInstance().setToken(token);
-                startActivity(new Intent(getApplicationContext(), Library.LibraryActivity.class));
-            }
         }
     }
 }
