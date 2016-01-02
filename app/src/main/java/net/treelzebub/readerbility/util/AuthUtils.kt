@@ -5,7 +5,6 @@ import java.net.URLEncoder
 
 /**
  * Created by Tre Murillo on 1/1/16
- * Copyright(c) 2016 Level, Inc.
  */
 class AuthUtils {
 

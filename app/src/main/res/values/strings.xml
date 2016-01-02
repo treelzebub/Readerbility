@@ -19,4 +19,8 @@
     <string name="then_paste_authurl">Then paste verification code here:</string>
     <string name="submit">Submit</string>
     <string name="clear">Clear</string>
+
+
+
+    <string name="key_pref_file">readerbility.pref</string>
 </resources>
