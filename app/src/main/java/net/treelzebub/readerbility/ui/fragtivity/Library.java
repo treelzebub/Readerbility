@@ -1,4 +1,4 @@
-package com.treelzebub.readerbility.ui.fragtivity;
+package net.treelzebub.readerbility.ui.fragtivity;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -18,10 +18,10 @@ import android.widget.BaseAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.treelzebub.readerbility.NavigationDrawerFragment;
-import com.treelzebub.readerbility.R;
-import com.treelzebub.readerbility.api.Readability;
-import com.treelzebub.readerbility.api.model.Bookmark;
+import net.treelzebub.readerbility.NavigationDrawerFragment;
+import net.treelzebub.readerbility.R;
+import net.treelzebub.readerbility.api.Readability;
+import net.treelzebub.readerbility.api.model.Bookmark;
 
 import java.util.List;
 

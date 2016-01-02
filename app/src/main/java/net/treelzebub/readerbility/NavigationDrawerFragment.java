@@ -1,4 +1,4 @@
-package com.treelzebub.readerbility;
+package net.treelzebub.readerbility;
 
 import android.app.Activity;
 import android.content.SharedPreferences;

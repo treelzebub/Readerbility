@@ -1,4 +1,4 @@
-package com.treelzebub.readerbility.util;
+package net.treelzebub.readerbility.util;
 
 import android.os.Bundle;
 import android.preference.Preference;
@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Created by Tre Murillo on 3/17/15.
+ * Created by Tre Murillo on 3/17/15
  */
 public class Settings {
 

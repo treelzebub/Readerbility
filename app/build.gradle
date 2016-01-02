@@ -40,31 +40,29 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    //Lang + Util
+    // Lang + Util
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile 'com.squareup:otto:1.3.7'
-    compile 'net.danlew:android.joda:2.9.1'
-    compile 'com.jakewharton:butterknife:6.1.0'
+    compile 'com.squareup.okio:okio:1.6.0'
+    compile 'com.squareup:otto:1.3.8'
+    compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'
+    compile 'net.danlew:android.joda:2.9.1'
     compile 'net.sarazan.prefs:prefs:1.1.01@aar'
 
-    //Android Back-compat
+    // Back-compat
     compile "com.android.support:appcompat-v7:$support_version"
     compile "com.android.support:cardview-v7:$support_version"
     compile "com.android.support:gridlayout-v7:$support_version"
     compile "com.android.support:recyclerview-v7:$support_version"
     compile "com.android.support:support-annotations:$support_version"
 
-    //HTTP/REST
-    compile 'com.squareup.okhttp:okhttp:2.2.0'
+    // Net
+    compile 'com.squareup.okhttp:okhttp:2.7.1'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'oauth.signpost:signpost-core:1.2.1.2'
-//    compile 'org.scribe:scribe:1.3.7'
-    compile 'uk.org.feedthecoffers:scribe-java-extras:0.1'
-    compile 'org.immutables:gson:1.1.3'
-    compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+    compile 'org.immutables:gson:2.1.4'
 
-    //ePub
+    // ePub
 //    compile 'org.slf4j:slf4j-android:1.7.10'
 }

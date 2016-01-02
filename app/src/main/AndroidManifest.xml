@@ -14,7 +14,7 @@
         android:supportsRtl="false">
 
         <activity
-            android:name=".ui.fragtivity.MainActivity"
+            android:name="net.treelzebub.readerbility.ui.fragtivity.MainActivity"
             android:label="@string/app_name">
 
             <intent-filter>
@@ -43,16 +43,16 @@
         </activity>
 
         <activity
-            android:name=".ui.fragtivity.Login$LoginActivity"
+            android:name="net.treelzebub.readerbility.ui.fragtivity.Login$LoginActivity"
             android:label="Login" />
 
         <activity
-            android:name=".ui.fragtivity.Library$LibraryActivity"
+            android:name="net.treelzebub.readerbility.ui.fragtivity.Library$LibraryActivity"
             android:label="Readerbility" />
 
         <activity
             android:label="Readerbility"
-            android:name=".util.Settings$SettingsActivity"
+            android:name="net.treelzebub.readerbility.util.Settings$SettingsActivity"
             android:theme="@style/SettingsTheme" />
 
     </application>

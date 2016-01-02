@@ -1,4 +1,4 @@
-package com.treelzebub.readerbility.ui.fragtivity;
+package net.treelzebub.readerbility.ui.fragtivity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -13,12 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.oauth.OAuthLoginActionBarActivity;
-import com.treelzebub.readerbility.R;
-import com.treelzebub.readerbility.api.Readability;
+import net.treelzebub.readerbility.R;
+import net.treelzebub.readerbility.api.Readability;
 import com.treelzebub.readerbility.auth.ReadabilityClient;
 import com.treelzebub.readerbility.auth.async.SetAccessToken;
 import com.treelzebub.readerbility.auth.async.SetAuthUrl;
-import com.treelzebub.readerbility.util.Settings;
+import net.treelzebub.readerbility.util.Settings;
 
 import org.scribe.model.Verifier;
 
