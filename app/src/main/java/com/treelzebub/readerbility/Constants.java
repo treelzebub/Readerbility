@@ -19,7 +19,7 @@ public class Constants {
 
     public static final String ENCODING = "UTF-8";
     public static final String SIGNATURE_METHOD = "HMAC-SHA1";
-    public static final String CALLBACK_URL = "oauth://readerbility";
+    public static final String CALLBACK_URL = "oauth://treelzebub.net/readerbility";
     public static final LogLevel LOG_LEVEL = LogLevel.BASIC;
 
     public static final String CONTENT_TYPE = "application/x-www-form-urlencoded";
