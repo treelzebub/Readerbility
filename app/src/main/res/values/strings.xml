@@ -11,16 +11,10 @@
     <string name="action_refresh">Refresh</string>
     <string name="action_settings">Settings</string>
 
-    <string name="login_label">Readability Login</string>
-    <string name="username_hint">username</string>
-    <string name="password_hint">Password</string>
-    <string name="submit_label">Submit</string>
-    <string name="follow_link">Follow link to sign into Readability</string>
-    <string name="then_paste_authurl">Then paste verification code here:</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
     <string name="submit">Submit</string>
-    <string name="clear">Clear</string>
 
-
-
+    <!-- Pref -->
     <string name="key_pref_file">readerbility.pref</string>
 </resources>

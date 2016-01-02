@@ -9,10 +9,10 @@ import net.treelzebub.readerbility.auth.LocalCredStore
 /**
  * Created by Tre Murillo on 1/1/16
  */
-class BaseAuthActivity : AppCompatActivity() {
+open class BaseAuthActivity : AppCompatActivity() {
 
     //Setup the AuthParameters for API call. This assumes we have successfully authed.
-    protected fun getConsumer(): OAuthParameters {
+    protected fun getAuthParams(): OAuthParameters {
         val signer = OAuthHmacSigner()
         signer.clientSharedSecret = Constants.CONSUMER_SECRET
         signer.tokenSharedSecret = LocalCredStore.getToken()!!.secret
